@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .category-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-category-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .add-category-btn:hover {
+            background-color: #218838;
+        }
+
+        .category-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .category-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .category-name {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .action-buttons a {
+            margin-left: 10px;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="category-container">
+        <h2>Category List</h2>
+        <a href="{% url 'adminpanel:add_category' %}" class="add-category-btn">Add New Category</a>
+        
+        <ul class="category-list">
+            {% for category in categories %}
+                <li class="category-item">
+                    <div class="category-details">
+                        {% if category.category_image %}
+                            <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}" class="category-image">
+                        {% else %}
+                            <div class="category-image" style="background-color: #f4f4f9; display: flex; align-items: center; justify-content: center;">
+                                <span>No Image</span>
+                            </div>
+                        {% endif %}
+                        <span class="category-name">{{ category.category_name }}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="{% url 'adminpanel:edit_category' category.pk %}" class="edit-btn">Edit</a>
+                        <a href="{% url 'adminpanel:delete_category' category.pk %}" class="delete-btn">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

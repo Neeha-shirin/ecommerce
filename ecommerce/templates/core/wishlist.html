@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_template_tag %}
+
+<html lang="en">
+
+<head>
+  <style>
+    /* General Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #D1E8D1; /* Nude Green */
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #A8D5BA; /* Pale Green */
+    }
+
+    /* Header */
+    header {
+        background-color: #A8D5BA; /* Pale Green */
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sitename {
+        font-family: 'Arial', sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+        color: white;
+    }
+
+    .navmenu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .navmenu ul li a {
+        color: white;
+        font-size: 16px;
+        padding: 12px 20px;
+        border-radius: 30px;
+        background-color: transparent;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .navmenu ul li a:hover {
+        background-color: #A8D5BA; /* Pale Green */
+        transform: scale(1.05);
+    }
+
+    /* Wishlist Page */
+    .main {
+        padding: 50px 0;
+    }
+
+    h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #333;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .wishlist-item-card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 30px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .wishlist-item-card:hover {
+        transform: scale(1.02);
+    }
+
+    .wishlist-item-card img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+
+    .wishlist-item-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .wishlist-item-info .name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .wishlist-item-info .price {
+        font-size: 18px;
+        font-weight: 500;
+        color: #A8D5BA; /* Pale Green */
+    }
+
+    .wishlist-item-info .btn-remove {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .wishlist-item-info .btn-remove:hover {
+        background-color: #c82333;
+    }
+
+    .wishlist-empty {
+        font-size: 18px;
+        color: #6c757d;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    /* Footer */
+    footer {
+        background-color: #A8D5BA; /* Pale Green */
+        color: white;
+        padding: 30px 0;
+        text-align: center;
+    }
+
+    footer .sitename {
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    footer p {
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 15px;
+    }
+
+    footer .credits a {
+        color: #fff;
+        font-weight: 600;
+    }
+
+    footer .credits a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .navmenu ul {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wishlist-item-card {
+            padding: 20px;
+        }
+
+        .wishlist-item-card img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .wishlist-item-info .name {
+            font-size: 18px;
+        }
+
+        .wishlist-item-info .price {
+            font-size: 16px;
+        }
+
+        .wishlist-item-info .btn-remove {
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+
+        h2 {
+            font-size: 28px;
+        }
+    }
+  </style>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Wishlist - New Design</title>
+  <meta name="description" content="Wishlist page with updated design style">
+  <meta name="keywords" content="wishlist, e-commerce">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Header Section -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-center">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename">Bethany</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          {% if user.is_authenticated %}
+          <li><a class="btn-getstarted" href="index.html#about">Home</a></li>
+          <li><a class="btn-getstarted" href="{% url 'wishlist' %}">Wishlist</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a></li>
+          {% else %}
+          <li><a class="btn-getstarted" href="index.html#about">Welcome {{ user.username }}</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Wishlist Page Content -->
+  <main class="main py-5">
+    <div class="container">
+        <h2>Your Wishlist</h2>
+        <div class="row">
+          {% if wishlist %}
+            {% for item in wishlist %}
+            <div class="col-md-4">
+                <div class="wishlist-item-card">
+                    <div class="wishlist-item-info">
+                        <div class="d-flex">
+                            <img src="{{ item.product.img.url }}" alt="{{ item.product.name }}">
+                            <div>
+                                <div class="name">{{ item.product.name }}</div>
+                                <div class="price">{{ item.product.price }}</div>
+                            </div>
+                        </div>
+                        <form method="post" action="{% url 'remove_from_wishlist' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-remove">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+          {% else %}
+          <div class="col-12">
+              <div class="wishlist-empty">Your wishlist is currently empty.</div>
+          </div>
+          {% endif %}
+        </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p class="sitename">Bethany &copy; 2024</p>
+    <p>All rights reserved | Design by <a href="https://example.com">Your Company</a></p>
+  </footer>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

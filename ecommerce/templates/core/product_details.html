@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        .product-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 3rem 0;
+            align-items: flex-start;
+        }
+
+        .product-image {
+            flex: 1 1 40%;
+            text-align: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-info {
+            flex: 1 1 50%;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .product-stock {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: green;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-stock.unavailable {
+            color: red;
+        }
+
+        button, .add_to_cart, .add_to_wishlist {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .add_to_cart {
+            background-color: #FF4081;
+            color: white;
+        }
+
+        .add_to_cart:hover {
+            background-color: #FF007F;
+        }
+
+        .add_to_wishlist {
+            background-color: #FFC107;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .add_to_wishlist:hover {
+            background-color: #FFA000;
+        }
+
+        button.disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        button:active, .add_to_cart:active, .add_to_wishlist:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Product Details Section -->
+        <div class="product-detail">
+            <!-- Product Image -->
+            <div class="product-image">
+                {% if product.img %}
+                    <img src="{{ product.img.url }}" alt="{{ product.desc }}">
+                {% else %}
+                    <p>No Image Available</p>
+                {% endif %}
+            </div>
+
+            <!-- Product Information -->
+            <div class="product-info">
+                <!-- Product Title -->
+                <h1 class="product-title">{{ product.name }}</h1>
+
+                <h1 class="product-title">{{ product.desc }}</h1>
+
+                <!-- Product Price -->
+                <p class="product-price">Rs: {{ product.price }}</p>
+
+                <!-- Product Stock Availability -->
+                {% if product.product_available_count > 0 %}
+                    <p class="product-stock">
+                        In Stock: {{ product.product_available_count }} items available
+                    </p>
+                {% else %}
+                    <p class="product-stock unavailable">Out of Stock</p>
+                {% endif %}
+
+                <!-- Add to Cart and Add to Wishlist Buttons -->
+                <div>
+                    {% if product.product_available_count > 0 %}
+                        <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a>
+                    {% else %}
+                        <button class="disabled" disabled>Unavailable</button>
+                    {% endif %}
+                    <a href="{% url 'add_wishlist' product.pk %}" class="add_to_wishlist">Add to Wishlist</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

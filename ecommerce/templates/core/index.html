@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% load cart_template_tag %}
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Index - Bethany Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- Header Section -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename">SKIN CARE</h1>
+    </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          {% if user.is_authenticated %}
+          <li><a class="btn-getstarted" href="index.html#about">Home</a></li>
+          <li><a class="btn-getstarted" href="{% url 'orderlist' %}">Cart&nbsp;&nbsp;
+            
+            <div style="color:red;">{{ request.user }}</div>
+          </a></li>
+          <li class="nav-item">
+            
+            <a class="navbar-brand" href="{% url 'search_results' %}">search</a>
+
+        </li>
+        <li class="nav-item">
+           <a class="navbar-brand" href="{% url 'profile' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+            
+          <a class="navbar-brand" href="{% url 'contact' %}">Contact</a>
+
+      </li>
+
+        
+        
+          <li><a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a></li>
+          {% else %}
+          <li><a class="btn-getstarted" href="index.html#about">Welcome {{ user.username }}</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+      <img src="{% static 'img/images of everglow/cov 3.jpg' %}" alt="Hero Background">
+      <div class="container text-center">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2>Skin Studio</h2>
+            <p> Elevate Your Everyday Glow</p>
+            <a href="#about" class="btn-get-started">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="product" class="categories section py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center mb-4">
+            <h2>Categories</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          {% for category in categories %}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              {% if category.category_image %}
+              <a href="{% url 'product' category.id %}">
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}" class="img-fluid">
+              </a>
+              {% endif %}
+              <div class="card-body text-center">
+                <h5 class="card-title">{{ category.category_name }}</h5>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer id="footer" class="footer light-background">
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bethany</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+    
+        h1, h2 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+    
+        /* Navigation */
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            background-color: #f1f1f1;
+            border-radius: 8px 8px 0 0;
+        }
+    
+        nav ul li {
+            margin: 0 20px;
+        }
+    
+        nav ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    
+        nav ul li a:hover {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+    
+        /* Section Styling */
+        section {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9fafb;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    
+        p {
+            font-size: 1rem;
+            color: #555555;
+        }
+    
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            nav ul li {
+                margin-bottom: 10px;
+            }
+    
+            .dashboard-container {
+                padding: 15px;
+            }
+        }
+    </style>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Admin Dashboard</h1>
+        
+        <nav>
+            <ul>
+                <li><a href="{% url 'adminpanel:user_management' %}">Manage Users</a></li>
+                <li><a href="{% url 'adminpanel:product_dashboard' %}">Product Dashboard</a></li>
+                <li><a href="{% url 'adminpanel:add_product' %}">Add Product</a></li>
+                <li><a href="{% url 'adminpanel:category_list' %}">categorylist</a></li>
+
+            </nav>
+            </ul>
+</nav>
+
+        <section>
+            <h2>Overview</h2>
+            <p>Here you can manage products, users, and orders.</p>
+        </section>
+    </div>
+    admin dashbrd
+
+<style> 
+        /* Basic styling for dashboard */
+        .dashboard-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</body>
+</html>

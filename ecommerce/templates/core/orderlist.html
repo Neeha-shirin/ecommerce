@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_template_tag %}
+
+<html lang="en">
+
+<head>
+  <style>
+    /* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    color: #212529;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #17a2b8;
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #343a40 0%, #495057 100%);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sitename {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.navmenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.navmenu ul li a {
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 30px;
+    background-color: transparent;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.navmenu ul li a:hover {
+    background-color: #17a2b8;
+    transform: scale(1.05);
+}
+
+/* Main Section */
+.main {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 30px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #17a2b8;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.table td {
+    border-bottom: 1px solid #f1f1f1;
+    color: #495057;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table td img {
+    width: 75px;
+    height: 75px;
+    border-radius: 5px;
+}
+
+.table .btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.table .btn-outline-danger {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}
+
+.table .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.table .btn-outline-success {
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+
+.table .btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Cart Summary Section */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #212529;
+}
+
+.list-group-item {
+    font-size: 16px;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-group-item span {
+    font-weight: 700;
+    color: #343a40;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 30px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.btn-getstarted {
+    color: #ffffff;
+    background-color: #17a2b8;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn-getstarted:hover {
+    background-color: #138496;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background: #343a40;
+    color: #ffffff;
+    padding: 40px 0;
+}
+
+footer .sitename {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+footer p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #adb5bd;
+}
+
+footer .credits a {
+    color: #17a2b8;
+    font-weight: 600;
+}
+
+footer .credits a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navmenu ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .table th, .table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-getstarted {
+        font-size: 14px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+}
+h2 {
+    font-size: 36px; /* Large font size for prominence */
+    font-weight: 900; /* Extra bold */
+    color: #ff007f; /* Vibrant pink color */
+    text-transform: uppercase; /* Make text uppercase */
+    letter-spacing: 2px; /* Add spacing between letters for style */
+    text-align: center; /* Center the text */
+    margin-bottom: 30px; /* Space below the heading */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
+}
+
+
+
+  </style>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Cart - Bethany Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+                   
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+
+<body class="cart-page">
+
+  <!-- Header Section -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename">Bethany</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          {% if user.is_authenticated %}
+          <li><a class="btn-getstarted" href="index.html#about">Home</a></li>
+          <li><a class="btn-getstarted" href="{% url 'index' %}">Cart&nbsp;&nbsp;
+            <div style="color:red;">{{ request.user|cart_item_count }}</div>
+          </a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a></li>
+          {% else %}
+          <li><a class="btn-getstarted" href="index.html#about">Welcome {{ user.username }}</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
+          <li><a class="btn-getstarted" href="{% url 'user_register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Cart Page Content -->
+  <main class="main py-5">
+    <div class="container mt-5">
+      <div class="row">
+          <div class="col-12 text-center mb-4">
+              <h2>Your Order</h2>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-8">
+              <!-- Order Items Table -->
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="table-light">
+                          <tr>
+                              <th scope="col">Product</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Quantity</th>
+                              <th scope="col">Subtotal</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% if order.items.all %}
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if item.product.img %}
+                                        <img src="{{ item.product.img.url }}" alt="{{ item.product.name }}" class="img-thumbnail me-3" style="width: 75px; height: 75px;">
+                                        {% endif %}
+                                        <span>{{ item.product.name }}</span>
+                                    </div>
+                                </td>
+                                <td>Rs:{{ item.product.price }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <!-- Decrease Quantity Button -->
+                                        <a href="{% url 'update_item_quantity' item.id 'decrement' %}" class="btn btn-sm btn-outline-danger">-</a>
+                                        <span class="mx-3">{{ item.quantity }}</span>
+                                        <!-- Increase Quantity Button -->
+                                        <a href="{% url 'update_item_quantity' item.id 'increment' %}" class="btn btn-sm btn-outline-success">+</a>
+                                    </div>
+                                </td>
+                                <td>Rs:{{ item.get_total_item_price }}</td>
+                                <td>
+                                    <!-- Remove Item Button -->
+                                    <a href="{% url 'remove_item_from_cart' item.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are sure?');">Remove</a>
+                                    
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Your cart is empty!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                    
+                  </table>
+              </div>
+          </div>
+  
+          <div class="col-lg-4">
+              <!-- Cart Summary -->
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Order Summary</h5>
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                              Subtotal
+                              <span>Rs:{{ order.get_total_price }}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                              Total Items
+                              <span>{{ order.get_total_count }}</span>
+                          </li>
+                      </ul>
+                      <div class="text-center mt-4">
+                          <a href="{% url 'checkout' %}" class="btn btn-success w-100">Proceed to Checkout</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </main>
+
+  <!-- Footer Section -->
+  <footer id="footer" class="footer light-background">
+    <div class="container text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bethany</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
