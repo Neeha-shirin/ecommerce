@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f9f4; /* Light nude green background */
+            color: #3c523c; /* Darker green text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #4e6c4e; /* Slightly darker green for header */
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #3c523c;
+        }
+
+        .order-summary {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 80%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+
+        .order-summary p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #4e6c4e;
+        }
+
+        .order-summary .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6f9b6a; /* Nude green for total */
+            margin-top: 20px;
+        }
+
+        /* Button Styling */
+        .back-to-home {
+            display: inline-block;
+            background-color: #6f9b6a; /* Nude green */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+
+        .back-to-home:hover {
+            background-color: #557a58; /* Darker green on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Order Confirmation</h1>
+
+    <div class="order-summary">
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+        <p><strong>Total Amount:</strong> Rs. {{ order.total }}</p>
+
+        <p class="total">Thank you for your purchase!</p>
+    </div>
+
+    <a href="/" class="back-to-home">Back to Home</a>
+    <a href="{% url 'order_items' %}" class="btn" style="background-color: black; color: white; padding: 10px 20px; text-decoration: none;">My Orders</a>
+
+   
+
+</body>
+</html>

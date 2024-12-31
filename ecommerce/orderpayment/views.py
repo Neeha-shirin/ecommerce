@@ -1,61 +1,220 @@
-# checkout/views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Address, Order
-from .forms import AddressForm
 from django.conf import settings
-from core.models import CustomUser  # Import CustomUser
-
-
-def checkout(request):
-    user_email = request.user.email
-    user_instance = CustomUser.objects.get(email=user_email)
-    addresses = Address.objects.filter(user__email=user_instance)  # Filter by CustomUser
-    if request.method == 'POST':
-        address_id = request.POST.get('address')
-        amount = float(request.POST.get('amount')) * 100  # Convert to paisa
-        selected_address = get_object_or_404(Address, id=address_id, user=user)
-
-        # Create Razorpay Order
-        razorpay_order = razorpay_client.order.create({
-            "amount": amount,
-            "currency": "INR",
-            "payment_capture": "1"
-        })
-
-        # Create Order in Database
-        order = Order.objects.create(
-            user=user,  # Reference CustomUser
-            address=selected_address,
-            razorpay_order_id=razorpay_order['id'],
-            amount=amount / 100
-        )
-
-        return render(request, 'orderpayment/payment.html', {
-            'order': order,
-            'razorpay_order_id': razorpay_order['id'],
-            'razorpay_key': settings.RAZORPAY_KEY_ID,
-            'amount': amount
-        })
-
-    return render(request, 'orderpayment/checkout.html', {'addresses': addresses})
-
-
-from django.shortcuts import render, redirect
-from .forms import AddressForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from core.models import Product
+from django.contrib.auth.decorators import login_required 
+
+from .models import Address, MyOrders, Payments
+from .forms import AddressForm
+from core.models import Order
 from django.http import HttpResponseForbidden
 
-from accounts.models import CustomUser  # Replace `yourapp` with the app containing `CustomUser`
+import stripe
 
+stripe.api_key = settings.STRIPE_SECRET_KEY  # Initialize Stripe API Key
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.contrib import messages
+from django.http import JsonResponse
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY  # Stripe API Key Initialization
+
+@login_required
+def checkout(request):
+    """
+    Handles the checkout process: fetching cart items, calculating total price, 
+    selecting address, and initiating payment or order placement.
+    """
+    # Fetch the user's cart and its items
+    cart = get_object_or_404(Order, user=request.user, ordered=False)
+    items = cart.items.all()
+
+    if not items.exists():
+        messages.warning(request, "Your cart is empty. Please add items before proceeding to checkout.")
+        return redirect('add_to_cart')  # Redirect to the cart page if empty
+
+    # Calculate the total price (convert to cents for Stripe)
+    total_price = int(cart.get_total_price() * 100)
+
+    # Get the latest 3 addresses of the user
+    addresses = Address.objects.filter(user=request.user).order_by('-id')[:3]
+
+    if not addresses.exists():
+        messages.warning(request, "Please add an address before proceeding to checkout.")
+        return redirect('add_address')
+    print('payment')
+
+    if request.method == "POST":
+    
+        payment_method = request.POST.get('payment_method')
+        address_id = request.POST.get('address_id')
+ 
+        if not address_id:
+            messages.warning(request, "Please select an address to proceed.")
+            return redirect('checkout')
+
+        selected_address = get_object_or_404(Address, id=address_id, user=request.user)
+
+        # Create a new order
+        order = MyOrders.objects.create(
+            user=request.user,
+            address=selected_address,
+            total=cart.get_total_price(),
+            payment_method=payment_method,
+            is_paid=False
+        )
+
+        if payment_method == 'STRIPE':
+            return redirect('stripe_payment', order_id=order.id, total_price=total_price)
+
+        elif payment_method == 'COD':
+            # Complete the order for COD
+            order.is_paid = False
+            order.save()
+            items.delete()  # Clear the cart
+            messages.success(request, "Your order has been placed successfully with Cash on Delivery.")
+            return redirect(order_confirmation, order_id=order.id)
+
+    return render(request, 'orderpayment/checkout.html', {
+        'total_price': total_price / 100,
+        'addresses': addresses,
+        'items': items,
+        'cart': cart,
+    })
+
+
+
+
+
+@login_required
+def handle_stripe_payment(request, order_id, total_price):
+    """
+    Handles Stripe payment intent creation and redirects to Stripe payment page.
+    """
+    try:
+        # Fetch the order
+        order = get_object_or_404(MyOrders, id=order_id)
+
+        # Create a payment intent with Stripe
+        payment_intent = stripe.PaymentIntent.create(
+            amount=total_price,
+            currency='INR',
+            metadata={'order_id': order.id}
+        )
+
+        # Save payment details
+        Payments.objects.create(
+            order=order,
+            payment_id=payment_intent['id'],
+            amount=total_price / 100,
+            payment_status='Pending'
+        )
+
+        return render(request, 'orderpayment/stripe_payment.html', {
+            'client_secret': payment_intent['client_secret'],
+            'amount': total_price / 100,
+            'order_id': order.id,
+            'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY
+        })
+    except Exception as e:
+        messages.error(request, f"Error creating payment intent: {str(e)}")
+        return redirect('checkout')
+
+
+
+
+@login_required
+def order_confirmation(request, order_id):
+    """
+    Displays order confirmation and checks payment status for Stripe orders.
+    """
+    order = get_object_or_404(MyOrders, id=order_id)
+
+    if order.payment_method == 'Stripe' and not order.is_paid:
+        try:
+            payment = Payments.objects.get(order=order)
+            payment_intent = stripe.PaymentIntent.retrieve(payment.payment_id)
+
+            if payment_intent.status == 'succeeded':
+                order.is_paid = True
+                payment.payment_status = 'Succeeded'
+                order.save()
+                payment.save()
+                messages.success(request, "Payment succeeded!")
+            else:
+                messages.warning(request, "Payment not completed. Please try again.")
+        except Exception as e:
+            messages.error(request, f"Error verifying payment status: {str(e)}")
+
+    return render(request, 'orderpayment/order_confirmation.html', {'order': order})
+
+
+
+
+
+
+
+@login_required
 def add_address(request):
+    """
+    Handles adding a new address for the user.
+    """
     if request.method == 'POST':
         form = AddressForm(request.POST)
         if form.is_valid():
             address = form.save(commit=False)
-            address.user = CustomUser.objects.get(id=request.user.id)  # Explicitly fetch CustomUser
+            address.user = request.user
             address.save()
+            messages.success(request, "Address added successfully.")
             return redirect('checkout')
     else:
         form = AddressForm()
-    
+
     return render(request, 'orderpayment/add_address.html', {'form': form})
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
+from .models import Address
+
+@csrf_exempt
+def delete_address(request, address_id):
+    if request.method == "POST":
+        try:
+            address = Address.objects.get(id=address_id, user=request.user)
+            address.delete()
+            return JsonResponse({'success': True, 'message': "Address deleted successfully!"}, status=200)
+        except Address.DoesNotExist:
+            return JsonResponse({'error': 'Address not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+
+def order_items(request):
+    orders = MyOrders.objects.filter(user=request.user).select_related('product')
+    return render(request, 'orderpayment/order_items.html', {'orders': orders})
+
+
+
+
+
+def cancel_order(request, order_id):
+    try:
+        order = MyOrders.objects.get(id=order_id)
+        print(f"Order found: {order}")
+    except Order.DoesNotExist:
+        print(f"No order found with ID {order_id}")
+        return redirect('order_items')  # Handle as per your logic
+
+    # If found, update status
+    if order.status != 'Cancelled':
+        order.status = 'Cancelled'
+        order.save()
+
+    return redirect('order_items')  # Or any other page you want to redirect to

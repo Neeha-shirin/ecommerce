@@ -86,6 +86,7 @@ DATABASES = {
         'HOST': 'localhost',  
         'PORT': '5432',  
     }
+    
 }
 
 
@@ -151,3 +152,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shirinshiri321@gmail.com'
 EMAIL_HOST_PASSWORD = 'sdwz jlux jqjr jfdm'
+
+# settings.py
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51QWXKlGs9MNDXGosrrETp9wqIeBYkMbPKIHLZTMizNIxqeSW3IdqJhaxfojb65yQbVuzHzSkxXxjcBRvQ8W3LcsL00IsMBpOnr'
+STRIPE_SECRET_KEY = 'sk_test_51QWXKlGs9MNDXGosLTzls48LOaXUCkLEItDSFzbcqGIMWwmY6WXGdd51wbusXaaE7aBsi5dO2yCiq3LSbJ9zQdnT00P7wjixo1'

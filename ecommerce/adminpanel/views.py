@@ -4,9 +4,11 @@ from accounts.models import CustomUser
 from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from core.models import Product, Category  
-from core.forms import ProductForm 
+from core.forms import ProductForm,CouponForm 
+from. forms import OrderForm
 from django.urls import reverse
 from django.contrib import messages
+from core .models  import Coupon
 
 def admin_required(user):
     return user.is_staff  
@@ -133,3 +135,119 @@ def delete_category(request, pk):
         category.delete()
         return redirect('adminpanel:category_list')
     return render(request, 'adminpanel/deletecategory.html', {'category': category})
+
+
+#coupon
+
+from django.shortcuts import render, redirect
+from core .forms import CouponForm
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+
+# Check if the user is an admin
+def admin_required(user):
+    return user.is_superuser
+
+# Coupon List view
+@login_required
+@user_passes_test(admin_required)
+def coupon_list(request):
+    coupons = Coupon.objects.all()  # Retrieve all coupons from the database
+    return render(request, 'adminpanel/coupon_list.html', {'coupons': coupons})
+
+# Add Coupon view
+@login_required
+@user_passes_test(admin_required)
+def add_coupon(request):
+    if request.method == 'POST':
+        form = CouponForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Coupon added successfully!")
+            return redirect('adminpanel:coupon_list')  # Redirect to the coupon list page
+    else:
+        form = CouponForm()
+
+    return render(request, 'adminpanel/add_coupon.html', {'form': form})
+
+# Edit Coupon view
+@login_required
+@user_passes_test(admin_required)
+def edit_coupon(request, coupon_id):
+    coupon = Coupon.objects.get(id=coupon_id)
+    if request.method == 'POST':
+        form = CouponForm(request.POST, instance=coupon)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Coupon updated successfully!")
+            return redirect('adminpanel:coupon_list')  # Redirect to the coupon list page
+    else:
+        form = CouponForm(instance=coupon)
+
+    return render(request, 'adminpanel/edit_coupon.html', {'form': form, 'coupon': coupon})
+
+# Delete Coupon view
+@login_required
+@user_passes_test(admin_required)
+def delete_coupon(request, coupon_id):
+    coupon = Coupon.objects.get(id=coupon_id)
+    coupon.delete()
+    messages.success(request, "Coupon deleted successfully!")
+    return redirect('adminpanel:coupon_list')
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from orderpayment.models import MyOrders
+# Create this form for CRUD
+ # Assumes a custom permission for admin users
+
+# List Orders
+@login_required
+@user_passes_test(admin_required)
+def order_list(request):
+    orders = MyOrders.objects.all()  # Fetch all orders
+    return render(request, 'adminpanel/order_list.html', {'orders': orders})
+
+# Add Order
+@login_required
+@user_passes_test(admin_required)
+def add_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Order added successfully!")
+            return redirect('adminpanel:order_list')
+    else:
+        form = OrderForm()
+    return render(request, 'adminpanel/add_edit_order.html', {'form': form, 'title': 'Add Order'})
+
+# Edit Order
+@login_required
+@user_passes_test(admin_required)
+def edit_order(request, order_id):
+    order = get_object_or_404(MyOrders, id=order_id)
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Order updated successfully!")
+            return redirect('adminpanel:order_list')
+    else:
+        form = OrderForm(instance=order)
+    return render(request, 'adminpanel/add_edit_order.html', {'form': form, 'title': 'Edit Order'})
+
+# Delete Order
+@login_required
+@user_passes_test(admin_required)
+def delete_order(request, order_id):
+    order = get_object_or_404(MyOrders, id=order_id)
+    if request.method == 'POST':
+        order.delete()
+        messages.success(request, "Order deleted successfully!")
+        return redirect('adminpanel:order_list')
+    return render(request, 'adminpanel/confirm_delete_order.html', {'order': order})

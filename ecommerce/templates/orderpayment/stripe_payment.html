@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete your payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f7f2; /* Light greenish background */
+            color: #3d523d; /* Darker green text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #4e6c4c;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        #payment-form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #payment-form button {
+            background-color: #6f9b6a; /* Nude green button */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 20px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        #payment-form button:hover {
+            background-color: #557a58; /* Darker green on hover */
+        }
+
+        /* Card Element Styling */
+        #card-element {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 12px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /* Focus State for Card Element */
+        #card-element:focus {
+            border-color: #6f9b6a;
+        }
+
+        /* Error Message Styling */
+        .error {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Complete your payment</h1>
+
+    <form id="payment-form">
+        <div id="card-element"></div>
+        <button type="submit">Pay</button>
+        <div class="error" id="payment-error"></div>
+    </form>
+
+    <script>
+        var stripe = Stripe('{{ stripe_publishable_key }}');
+        var clientSecret = '{{ client_secret }}';
+
+        var elements = stripe.elements();
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            stripe.confirmCardPayment(clientSecret, {
+                payment_method: { card: card }
+            }).then(function(result) {
+                if (result.error) {
+                    document.getElementById('payment-error').textContent = 'Payment failed: ' + result.error.message;
+                } else if (result.paymentIntent.status === 'succeeded') {
+                    window.location.href = '/order_confirmation/{{ order_id }}';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

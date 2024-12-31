@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from core.models import Category, Product, Order, OrderItem,Wishlist
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
+from . models import Coupon
 
 # Home Page
 def index(request):
@@ -46,6 +47,7 @@ def add_to_cart(request, pk):
     if not request.user.is_authenticated:
         messages.error(request, "You need to log in to add items to your cart.")
         return redirect('login')
+
 
     # Create or retrieve order item
     order_item, created = OrderItem.objects.get_or_create(
@@ -177,3 +179,16 @@ def search(request):
     return render(request, 'core/search.html', {'products': products, 'query': query, 'year': datetime.now().year})
 def contact(request):
     return render(request, 'core/contact.html')
+
+def apply_coupon(request):
+    if request.method == "POST":
+        code = request.POST.get("coupon_code")
+        try:
+            coupon = Coupon.objects.get(code=code, active=True)
+            request.session['coupon_id'] = coupon.id
+            messages.success(request, f"Coupon '{code}' applied successfully!")
+        except Coupon.DoesNotExist:
+            messages.error(request, "Invalid or expired coupon code.")
+            request.session['coupon_id'] = None
+
+    return redirect('orderlist')

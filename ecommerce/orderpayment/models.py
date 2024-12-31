@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from core. models import Product
+
 
 # Custom user model
 class CustomUser(AbstractUser):
@@ -8,8 +10,12 @@ class CustomUser(AbstractUser):
 
 
 # Address model
+from django.conf import settings
+
 class Address(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='addresses')  
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # other fields...
+ 
  
      
     full_name = models.CharField(max_length=100)
@@ -25,18 +31,43 @@ class Address(models.Model):
 
 
 # Order model
-class Order(models.Model):
-    user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name='orders'  # Unique related_name for Order reverse relationship
+
+class MyOrders(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(
+        max_length=20,
+        choices=(('Stripe', 'Stripe'), ('COD', 'Cash on Delivery')),
+        default='COD'
     )
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
-    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
-    amount = models.FloatField()
     is_paid = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=(
+            ('Pending', 'Pending'),
+            ('Shipped', 'Shipped'),
+            ('Delivered', 'Delivered'),
+            ('Cancelled', 'Cancelled'),
+            ('Returned', 'Returned'),
+        ),
+        default='Pending'
+    )
+
+    def __str__(self):
+        return f"Order {self.id} - {self.user}"
+
+class Payments(models.Model):
+    order = models.OneToOneField(MyOrders, on_delete=models.CASCADE)
+    payment_id = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_status = models.CharField(max_length=50, choices=(('Pending', 'Pending'), ('Succeeded', 'Succeeded'), ('Failed', 'Failed')))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order {self.id} - User {self.user.username}"
+        return f"Payment {self.payment_id} for Order {self.order.id}"
+
+
+

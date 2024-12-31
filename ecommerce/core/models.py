@@ -57,12 +57,11 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
     order_id = models.CharField(max_length=100, unique=True, default=None, blank=True, null=True)
     datetime_of_payment = models.DateTimeField(auto_now_add=True)
+    stripe_payment_intent_id = models.CharField(max_length=255, blank=True, null=True)
     order_delivered = models.BooleanField(default=False)
     order_received = models.BooleanField(default=False)
 
-    razorpay_order_id = models.CharField(max_length=500, blank=True, null=True)
-    razorpay_payment_id = models.CharField(max_length=500, blank=True, null=True)
-    razorpay_signature = models.CharField(max_length=500, blank=True, null=True)
+    
 
     def save(self, *args, **kwargs):
         # Generate order ID if it doesn't exist
@@ -87,3 +86,16 @@ class Wishlist(models.Model):
 
     class Meta:
         unique_together = ('user', 'product') 
+
+
+
+
+from django.db import models
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=20, unique=True)
+    discount = models.DecimalField(max_digits=5, decimal_places=2)  # Discount percentage or fixed value
+    active = models.BooleanField(default=True)  # Active status of the coupon
+
+    def __str__(self):
+        return self.code

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom right, #edf4e2, #cde5b5);
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: #f9f9f2;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            padding: 30px;
+            border: 1px solid #d4e5c1;
+        }
+
+        h3 {
+            text-align: center;
+            color: #3d663d;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #f9fff1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #d6e9c6;
+        }
+
+        th {
+            background-color: #88b572;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #eef6df;
+        }
+
+        tr:hover td {
+            background-color: #e5f2d8;
+        }
+
+        /* Status Badge Styling */
+        .badge {
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+
+        .badge-pending {
+            background-color: #ffcc66;
+        }
+
+        .badge-shipped {
+            background-color: #87ceeb;
+        }
+
+        .badge-delivered {
+            background-color: #78c000;
+        }
+
+        .badge-cancelled {
+            background-color: #e57373;
+        }
+
+        .badge-returned {
+            background-color: #ad8eb7;
+        }
+
+        /* Button Styling */
+        .btn {
+            padding: 10px 20px;
+            background-color: #66b266;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 2px;
+        }
+
+        .btn:hover {
+            background-color: #558a55;
+        }
+
+        .btn-delete {
+            background-color: #e57373;
+        }
+
+        .btn-delete:hover {
+            background-color: #cc4444;
+        }
+
+        .btn-change-status {
+            background-color: #4682B4;
+        }
+
+        .btn-change-status:hover {
+            background-color: #315f86;
+        }
+
+        .btn-cancel {
+            background-color: #e57373;
+        }
+
+        .btn-cancel:hover {
+            background-color: #cc4444;
+        }
+
+        /* Empty State Styling */
+        .empty-state {
+            text-align: center;
+            font-size: 18px;
+            color: #788775;
+            padding: 30px;
+            background-color: #f0f8e6;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h3>My Orders</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product Name</th>
+                    <th>Address</th>
+                    <th>Order Status</th>
+                    <th>Price</th>
+                    <th>Payment Method</th>
+                    <th>Paid</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through orders -->
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.address }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if order.status == 'Pending' %}badge-pending
+                            {% elif order.status == 'Shipped' %}badge-shipped
+                            {% elif order.status == 'Delivered' %}badge-delivered
+                            {% elif order.status == 'Cancelled' %}badge-cancelled
+                            {% elif order.status == 'Returned' %}badge-returned
+                            {% endif %}">{{ order.status }}</span>
+                    </td>
+                    <td>Rs. {{ order.total|floatformat:2 }}</td>
+                    <td>{{ order.get_payment_method_display }}</td>
+                    <td>{{ order.is_paid|yesno:"Yes,No" }}</td>
+                    <td>
+                        <!-- Add Cancel Order Button -->
+                        {% if order.status != 'Cancelled' %}
+                        <form action="{% url 'cancel_order' order.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-cancel">Cancel Order</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="empty-state">You have no orders.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
