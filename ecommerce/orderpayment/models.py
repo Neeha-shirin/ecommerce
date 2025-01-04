@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from core. models import Product
+from django.utils.timezone import now
+
 
 
 # Custom user model
@@ -33,10 +35,19 @@ class Address(models.Model):
 # Order model
 
 class MyOrders(models.Model):
+    ORDER_STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+        ('Returned', 'Returned'),
+    )
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True)
     total = models.DecimalField(max_digits=10, decimal_places=2)
+    ordered_date = models.DateTimeField(default=now)
     payment_method = models.CharField(
         max_length=20,
         choices=(('Stripe', 'Stripe'), ('COD', 'Cash on Delivery')),
@@ -46,18 +57,13 @@ class MyOrders(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=20,
-        choices=(
-            ('Pending', 'Pending'),
-            ('Shipped', 'Shipped'),
-            ('Delivered', 'Delivered'),
-            ('Cancelled', 'Cancelled'),
-            ('Returned', 'Returned'),
-        ),
+        choices=ORDER_STATUS_CHOICES,
         default='Pending'
     )
 
     def __str__(self):
         return f"Order {self.id} - {self.user}"
+
 
 class Payments(models.Model):
     order = models.OneToOneField(MyOrders, on_delete=models.CASCADE)

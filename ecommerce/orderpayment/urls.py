@@ -13,7 +13,8 @@ urlpatterns = [
     path('stripe-payment/<int:order_id>/<int:total_price>/', views.handle_stripe_payment, name='stripe_payment'),  # Stripe payment handler
     path('order_items/', views.order_items, name='order_items'),
     
-    path('cancel-order/<int:order_id>/', views.cancel_order, name='cancel_order')
+    path('cancel-order/<int:order_id>/', views.cancel_order, name='cancel_order'),
+    path('order_details/<int:order_id>/', views.order_details, name='order_details')
      
    
 ]

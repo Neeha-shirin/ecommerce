@@ -244,8 +244,9 @@ def password_reset_complete(request):
 
 
 def profile(request):
-    if request.user.is_staff or request.user.is_superuser:
-        return redirect('adminpanel')
+    if request.user.is_superuser:
+        return redirect('user_login')
+    
 
    
     data = CustomUser.objects.get(id=request.user.id)

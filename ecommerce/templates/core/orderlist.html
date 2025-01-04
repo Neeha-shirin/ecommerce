@@ -278,7 +278,7 @@ h2 {
   </style>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Cart - Bethany Bootstrap Template</title>
+  <title>Cart - skin studio template </title>
   <meta name="description" content="">
   <meta name="keywords" content="">
                    
@@ -308,7 +308,7 @@ h2 {
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <h1 class="sitename">Bethany</h1>
+        <h1 class="sitename">SKIN CARE</h1>
       </a>
       <nav id="navmenu" class="navmenu">
         <ul>
@@ -333,7 +333,7 @@ h2 {
     <div class="container mt-5">
       <div class="row">
           <div class="col-12 text-center mb-4">
-              <h2>Your Order</h2>
+              <h2>CART</h2>
           </div>
       </div>
       <div class="row">
@@ -413,29 +413,8 @@ h2 {
           </div>
       </div>
   </div>
-  <div class="coupon-section">
-    <h4>Have a Coupon?</h4>
-    <form method="post" action="{% url 'apply_coupon' %}">
-        {% csrf_token %}
-        <input type="text" name="coupon_code" placeholder="Enter coupon code" />
-        <button type="submit" class="coupon">Apply Coupon</button>
-    </form>
+  
 
-    {% if coupon_form.errors %}
-        <p class="error">{{ coupon_form.errors }}</p>
-    {% endif %}
-
-    {% if coupon %}
-        <p>Coupon Applied: <strong>{{ coupon.code }}</strong></p>
-        <p>Discount: -₹{{ discount|floatformat:2 }}</p>
-        <h4>Total: ₹{{ total_price_after_discount|floatformat:2 }}</h4>
-    {% else %}
-        <p>No coupon applied.</p>
-    {% endif %}
-   
-</div>
-
-</div>
   
   </main>
 

@@ -25,36 +25,46 @@ from django.http import JsonResponse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY  # Stripe API Key Initialization
 
+
 @login_required
 def checkout(request):
     """
     Handles the checkout process: fetching cart items, calculating total price, 
     selecting address, and initiating payment or order placement.
     """
-    # Fetch the user's cart and its items
-    cart = get_object_or_404(Order, user=request.user, ordered=False)
+    # Fetch the user's active cart
+    try:
+        cart = Order.objects.get(user=request.user, ordered=False)
+    except Order.DoesNotExist:
+        # Pass a message if the cart does not exist
+        messages.warning(request, "Your cart is empty. Please add items before proceeding to checkout.")
+        return redirect('orderlist')  # Redirect to the cart page
+
+    # Fetch items in the cart
     items = cart.items.all()
 
+    # Check if the cart is empty
     if not items.exists():
         messages.warning(request, "Your cart is empty. Please add items before proceeding to checkout.")
-        return redirect('add_to_cart')  # Redirect to the cart page if empty
+        return redirect('orderlist')  # Redirect to the cart page if empty
 
     # Calculate the total price (convert to cents for Stripe)
     total_price = int(cart.get_total_price() * 100)
 
-    # Get the latest 3 addresses of the user
+    # Fetch the user's most recent addresses (up to 3)
     addresses = Address.objects.filter(user=request.user).order_by('-id')[:3]
 
+    # Ensure the user has at least one address
     if not addresses.exists():
         messages.warning(request, "Please add an address before proceeding to checkout.")
         return redirect('add_address')
-    print('payment')
 
     if request.method == "POST":
-    
+        # Retrieve selected payment method and address
         payment_method = request.POST.get('payment_method')
         address_id = request.POST.get('address_id')
- 
+
+        # Validate the address selection
         if not address_id:
             messages.warning(request, "Please select an address to proceed.")
             return redirect('checkout')
@@ -70,6 +80,7 @@ def checkout(request):
             is_paid=False
         )
 
+        # Handle payment methods
         if payment_method == 'STRIPE':
             return redirect('stripe_payment', order_id=order.id, total_price=total_price)
 
@@ -77,9 +88,13 @@ def checkout(request):
             # Complete the order for COD
             order.is_paid = False
             order.save()
-            items.delete()  # Clear the cart
+            cart.items.all().delete()  # Clear the cart
             messages.success(request, "Your order has been placed successfully with Cash on Delivery.")
-            return redirect(order_confirmation, order_id=order.id)
+            return redirect('order_confirmation', order_id=order.id)
+
+        else:
+            messages.error(request, "Invalid payment method. Please try again.")
+            return redirect('checkout')
 
     return render(request, 'orderpayment/checkout.html', {
         'total_price': total_price / 100,
@@ -87,7 +102,6 @@ def checkout(request):
         'items': items,
         'cart': cart,
     })
-
 
 
 
@@ -158,7 +172,7 @@ def order_confirmation(request, order_id):
 
 
 
-
+                                                                                                                
 
 @login_required
 def add_address(request):
@@ -196,12 +210,24 @@ def delete_address(request, address_id):
 
 
 
+@login_required
 def order_items(request):
-    orders = MyOrders.objects.filter(user=request.user).select_related('product')
+    # Fetch orders sorted by the latest order first
+    orders = MyOrders.objects.filter(user=request.user).select_related('product').order_by('-ordered_date')
     return render(request, 'orderpayment/order_items.html', {'orders': orders})
 
 
 
+def order_details(request, order_id):
+   
+    order = get_object_or_404(MyOrders, id=order_id, user=request.user)
+    order_status_choices = MyOrders.ORDER_STATUS_CHOICES 
+
+    return render(request, "orderpayment/order_details.html", {
+        'order': order,
+        'order_status_choices': order_status_choices,
+       
+    })
 
 
 def cancel_order(request, order_id):

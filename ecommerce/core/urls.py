@@ -15,11 +15,12 @@ urlpatterns = [
     path('add_wishlist/<int:pid>/',views.add_to_wishlist,name='add_wishlist'),
     path('remove_from_wishlist/<int:product_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
     path('contact/', views.contact, name='contact'),
-    path('apply-coupon/', views.apply_coupon, name='apply_coupon'),
-
-
-    path('search/', views.search, name='search_results'),  
+    
+    path('search/', views.search, name='search'),
 ]
+
+   
+
 
 
 

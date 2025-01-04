@@ -5,9 +5,110 @@
 <html lang="en">
 
 <head>
+  <style>
+    /* General Section Styles */
+#product.categories {
+  background-color: #f9f9f9;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+#product .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#product .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#product h2 {
+  font-size: 36px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-bottom: 4px solid #e6e6e6;
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.card-body {
+  padding: 20px;
+  background-color: white;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  margin-top: 20px;
+  text-transform: capitalize;
+  transition: color 0.3s ease;
+}
+
+.card-title:hover {
+  color: #007bff;
+}
+
+.col-lg-4, .col-md-6 {
+  margin-bottom: 30px;
+  padding: 0 15px;
+}
+
+@media (max-width: 991px) {
+  #product h2 {
+    font-size: 28px;
+  }
+
+  .col-lg-4 {
+    max-width: 45%;
+  }
+
+  .col-md-6 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .col-lg-4, .col-md-6 {
+    max-width: 100%;
+  }
+
+  #product h2 {
+    font-size: 24px;
+  }
+}
+
+  </style>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - Bethany Bootstrap Template</title>
+  <title>skin studio template </title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -43,30 +144,25 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           {% if user.is_authenticated %}
-          <li><a class="btn-getstarted" href="index.html#about">Home</a></li>
-          <li><a class="btn-getstarted" href="{% url 'orderlist' %}">Cart&nbsp;&nbsp;
-            
-            <div style="color:red;">{{ request.user }}</div>
+          <li><a class="btn-getstarted" href="{% url 'index'%}">Home</a></li>
+          <li><a class="btn-getstarted" href="{% url 'orderlist' %}">Cart</a></li>
+           
           </a></li>
           <li class="nav-item">
-            
-            <a class="navbar-brand" href="{% url 'search_results' %}">search</a>
-
+            <a class="navbar-brand" href="{% url 'search' %}">Search</a>
         </li>
         <li class="nav-item">
            <a class="navbar-brand" href="{% url 'profile' %}">Profile</a>
         </li>
         <li class="nav-item">
-            
           <a class="navbar-brand" href="{% url 'contact' %}">Contact</a>
-
       </li>
-
-        
-        
+      <li class="nav-item">
+        <a class="navbar-brand" href="{% url 'order_items' %}">My Order</a>
+     </li>
           <li><a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a></li>
           {% else %}
-          <li><a class="btn-getstarted" href="index.html#about">Welcome {{ user.username }}</a></li>
+          
           <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
           <li><a class="btn-getstarted" href="{% url 'user_register' %}">Register</a></li>
           {% endif %}
@@ -74,6 +170,28 @@
       </nav>
     </div>
   </header>
+
+  <!-- Banner Section -->
+  <!-- Banner Section -->
+<section id="banner" class="banner-section">
+  <div class="container">
+    <div class="row align-items-center text-center">
+      <div class="col-12">
+        {% for banner in banners %}
+        <div class="banner-content my-4">
+          <!-- Ensure the image is displayed properly -->
+          <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="img-fluid mb-3">
+          <h2 class="banner-title">{{ banner.title }}</h2>
+          <p class="banner-description">{{ banner.description }}</p>
+        </div>
+        {% empty %}
+        <p>No banners available.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <!-- Main Content -->
   <main class="main">
@@ -85,7 +203,8 @@
           <div class="col-lg-8">
             <h2>Skin Studio</h2>
             <p> Elevate Your Everyday Glow</p>
-            <a href="#about" class="btn-get-started">Get Started</a>
+            <a href="{% url 'search' %}" class="btn-get-started">Get Started</a>
+
           </div>
         </div>
       </div>
@@ -123,13 +242,10 @@
   <!-- Footer Section -->
   <footer id="footer" class="footer light-background">
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bethany</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">skin studio</strong> <span>All Rights Reserved</span></p>
+      
     </div>
   </footer>
-
 </body>
 
 </html>

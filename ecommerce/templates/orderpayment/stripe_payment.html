@@ -108,7 +108,7 @@
                 if (result.error) {
                     document.getElementById('payment-error').textContent = 'Payment failed: ' + result.error.message;
                 } else if (result.paymentIntent.status === 'succeeded') {
-                    window.location.href = '/order_confirmation/{{ order_id }}';
+                    window.location.href = '/orderpayment/order_confirmation/{{ order_id }}';
                 }
             });
         });

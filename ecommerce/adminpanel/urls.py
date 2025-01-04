@@ -21,15 +21,12 @@ urlpatterns = [
     path('categories/delete/<int:pk>/', views.delete_category, name='delete_category'),
 
 
-    path('coupons/', views.coupon_list, name='coupon_list'),
-    path('add-coupon/', views.add_coupon, name='add_coupon'),
-    path('edit-coupon/<int:coupon_id>/', views.edit_coupon, name='edit_coupon'),
-    path('delete-coupon/<int:coupon_id>/', views.delete_coupon, name='delete_coupon'), 
+    
     
 
     path('orders/', views.order_list, name='order_list'),  # List all orders
     path('orders/add/', views.add_order, name='add_order'),  # Add a new order
     path('orders/edit/<int:order_id>/', views.edit_order, name='edit_order'),  # Edit an existing order
-    path('orders/delete/<int:order_id>/', views.delete_order, name='delete_order') # Delete an order
-
+    path('admin/custom-banner/', views.custom_banner_admin, name='custom_banner_admin'),
+    path('admin/edit-banner/<int:banner_id>/', views.edit_banner, name='edit_banner'),
 ]

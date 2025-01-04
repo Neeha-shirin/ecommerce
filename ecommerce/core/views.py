@@ -5,18 +5,32 @@ from django.contrib.auth.decorators import login_required
 from core.models import Category, Product, Order, OrderItem,Wishlist
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseNotFound
-from . models import Coupon
+from . models import Banner
+from django.http import HttpResponseForbidden
+
 
 # Home Page
 def index(request):
     categories = Category.objects.filter(is_available=True)
     products = Product.objects.all()
-    return render(request, 'core/index.html', {'products': products, 'categories': categories})
+    banners = Banner.objects.all()  # Fetch all banners from the database
+    
+    context = {
+        'banners': banners,
+        'products': products,
+        'categories': categories,
+    }
+    
+    return render(request, 'core/index.html', context)
 
 
 # Order List / Cart View
-@login_required
+@login_required(login_url='user_login')
 def orderlist(request):
+    # Prevent superusers from accessing this page
+    if request.user.is_superuser:
+         return redirect('user_login')
+    
     try:
         order = Order.objects.get(user=request.user, ordered=False)
         return render(request, 'core/orderlist.html', {'order': order})
@@ -25,6 +39,7 @@ def orderlist(request):
 
 
 # Products in a Category
+
 def product_view(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     products = Product.objects.filter(category=category)
@@ -32,14 +47,27 @@ def product_view(request, category_id):
 
 
 # Product Details
+
+
+
 def product_details(request, pk):
+    # Fetch the main product based on the pk (primary key)
     product = get_object_or_404(Product, id=pk)
-    return render(request, 'core/product_details.html', {'product': product})
+    
+    # Fetch similar products (all products except the current one, you can modify the filtering logic as needed)
+    similar_products = Product.objects.exclude(id=pk)[:6]  # Adjust the number of similar products
+    
+    # Pass both the main product and the similar products to the template
+    return render(request, 'core/product_details.html', {
+        'product': product, 
+        'products': similar_products  # Now similar products are passed correctly
+    })
+
 
 
 # Add to  cart
 
-@login_required
+@login_required(login_url='user_login')
 def add_to_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
@@ -47,7 +75,6 @@ def add_to_cart(request, pk):
     if not request.user.is_authenticated:
         messages.error(request, "You need to log in to add items to your cart.")
         return redirect('login')
-
 
     # Create or retrieve order item
     order_item, created = OrderItem.objects.get_or_create(
@@ -72,8 +99,12 @@ def add_to_cart(request, pk):
         order.items.add(order_item)
         messages.info(request, "Added item to your cart.")
 
-    return redirect('orderlist')
+    # Check if the cart is empty
+    if not order.items.exists():
+        messages.error(request, "Your cart is empty! Please add items to proceed.")
+        return redirect('current_page')  # Replace 'current_page' with the name of the current page's URL
 
+    return redirect('orderlist')  # Replace 'orderlist' with your desired URL for the order summary or checkout page
 
 
 # Remove Item from Cart
@@ -138,6 +169,9 @@ def wishlist(request):
 
 @login_required(login_url='user_login')
 def add_to_wishlist(request,pid):
+
+    if request.user.is_superuser:
+        return redirect('user_login')
     product = get_object_or_404(Product,id=pid)
     
     wishlist,created = Wishlist.objects.get_or_create(user=request.user,product=product)
@@ -180,15 +214,3 @@ def search(request):
 def contact(request):
     return render(request, 'core/contact.html')
 
-def apply_coupon(request):
-    if request.method == "POST":
-        code = request.POST.get("coupon_code")
-        try:
-            coupon = Coupon.objects.get(code=code, active=True)
-            request.session['coupon_id'] = coupon.id
-            messages.success(request, f"Coupon '{code}' applied successfully!")
-        except Coupon.DoesNotExist:
-            messages.error(request, "Invalid or expired coupon code.")
-            request.session['coupon_id'] = None
-
-    return redirect('orderlist')

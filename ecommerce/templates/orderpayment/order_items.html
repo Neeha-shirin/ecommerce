@@ -14,14 +14,12 @@
             color: #2c3e50;
         }
 
-        /* Container Styling */
         .container {
             max-width: 1200px;
             margin: 50px auto;
             padding: 20px;
         }
 
-        /* Card Styling */
         .card {
             background-color: #f9f9f2;
             border-radius: 12px;
@@ -38,7 +36,6 @@
             font-size: 28px;
         }
 
-        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -72,7 +69,6 @@
             background-color: #e5f2d8;
         }
 
-        /* Status Badge Styling */
         .badge {
             padding: 8px 14px;
             border-radius: 20px;
@@ -98,11 +94,6 @@
             background-color: #e57373;
         }
 
-        .badge-returned {
-            background-color: #ad8eb7;
-        }
-
-        /* Button Styling */
         .btn {
             padding: 10px 20px;
             background-color: #66b266;
@@ -119,22 +110,6 @@
             background-color: #558a55;
         }
 
-        .btn-delete {
-            background-color: #e57373;
-        }
-
-        .btn-delete:hover {
-            background-color: #cc4444;
-        }
-
-        .btn-change-status {
-            background-color: #4682B4;
-        }
-
-        .btn-change-status:hover {
-            background-color: #315f86;
-        }
-
         .btn-cancel {
             background-color: #e57373;
         }
@@ -143,7 +118,19 @@
             background-color: #cc4444;
         }
 
-        /* Empty State Styling */
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .highlight-latest {
+            background-color: #eef2d8;
+            font-weight: bold;
+        }
+
         .empty-state {
             text-align: center;
             font-size: 18px;
@@ -162,22 +149,23 @@
         <table>
             <thead>
                 <tr>
+                    <th>S. No</th>
                     <th>Order ID</th>
-                    <th>Product Name</th>
                     <th>Address</th>
                     <th>Order Status</th>
                     <th>Price</th>
                     <th>Payment Method</th>
                     <th>Paid</th>
                     <th>Actions</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Loop through orders -->
                 {% for order in orders %}
-                <tr>
+                <tr class="{% if forloop.first %}highlight-latest{% endif %}">
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ order.id }}</td>
-                    <td>{{ order.product.name }}</td>
+                    
                     <td>{{ order.address }}</td>
                     <td>
                         <span class="badge 
@@ -185,25 +173,29 @@
                             {% elif order.status == 'Shipped' %}badge-shipped
                             {% elif order.status == 'Delivered' %}badge-delivered
                             {% elif order.status == 'Cancelled' %}badge-cancelled
-                            {% elif order.status == 'Returned' %}badge-returned
                             {% endif %}">{{ order.status }}</span>
                     </td>
                     <td>Rs. {{ order.total|floatformat:2 }}</td>
                     <td>{{ order.get_payment_method_display }}</td>
                     <td>{{ order.is_paid|yesno:"Yes,No" }}</td>
                     <td>
-                        <!-- Add Cancel Order Button -->
                         {% if order.status != 'Cancelled' %}
                         <form action="{% url 'cancel_order' order.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-cancel">Cancel Order</button>
                         </form>
+                        <td>
+                            {{ order.product.name }}
+                            <br>
+                            <a href="{% url 'order_details' order.id %}" class="btn">View Details</a>
+                        </td>
                         {% endif %}
+                       
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="8" class="empty-state">You have no orders.</td>
+                    <td colspan="9" class="empty-state">You have no orders.</td>
                 </tr>
                 {% endfor %}
             </tbody>
