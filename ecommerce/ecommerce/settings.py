@@ -145,14 +145,15 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 
+from decouple import config
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'shirinshiri321@gmail.com'
-EMAIL_HOST_PASSWORD = 'sdwz jlux jqjr jfdm'
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-# settings.py
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51QWXKlGs9MNDXGosrrETp9wqIeBYkMbPKIHLZTMizNIxqeSW3IdqJhaxfojb65yQbVuzHzSkxXxjcBRvQ8W3LcsL00IsMBpOnr'
-STRIPE_SECRET_KEY = 'sk_test_51QWXKlGs9MNDXGosLTzls48LOaXUCkLEItDSFzbcqGIMWwmY6WXGdd51wbusXaaE7aBsi5dO2yCiq3LSbJ9zQdnT00P7wjixo1'
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+

@@ -284,54 +284,64 @@ button:active {
             padding: 3rem 0;
             background-color: #f1f5f8;
         }
-
+        
         #similar-products h2 {
             font-size: 1.8rem;
             text-align: center;
             margin-bottom: 2rem;
             color: #333;
         }
-
+        
         #similar-products .card {
             border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            width: 200px; /* Reduced width for smaller cards */
+            margin: 0 auto; /* Center the card */
+            transition: transform 0.3s ease; /* Smooth transition for hover effect */
         }
-
+        
+        #similar-products .card:hover {
+            transform: translateY(-10px); /* Lift the card when hovered */
+        }
+        
         #similar-products .card img {
-            width: 100%;
+            width: 120%;
             height: auto;
         }
-
+        
         #similar-products .card-body {
             padding: 15px;
             text-align: center;
         }
-
+        
         #similar-products .card-title {
             font-size: 1rem;
             font-weight: bold;
             color: #333;
         }
-
+        
         #similar-products .card-text {
             font-size: 0.9rem;
             color: #555;
             margin: 10px 0;
         }
-
+        
         #similar-products .btn {
-            background-color: #007bff;
+            background-color:rgb(143, 169, 196); /* Darker background for "View More" button */
             color: white;
             text-decoration: none;
             padding: 10px 15px;
             border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
         }
-
+        
         #similar-products .btn:hover {
-            background-color: #0056b3;
+            background-color:rgb(200, 217, 235); /* Even darker shade on hover */
         }
+        
     </style>
 </head>
 <body>
@@ -409,5 +419,12 @@ button:active {
             </div>
         </div>
     </section>
+    <!-- Footer Section -->
+  <footer id="footer" class="footer light-background">
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">skin studio</strong> <span>All Rights Reserved</span></p>
+      
+    </div>
+  </footer>
 </body>
 </html>

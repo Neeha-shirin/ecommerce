@@ -313,7 +313,7 @@ h2 {
       <nav id="navmenu" class="navmenu">
         <ul>
           {% if user.is_authenticated %}
-          <li><a class="btn-getstarted" href="index.html#about">Home</a></li>
+          <li><a class="btn-getstarted" href="{% url 'index' %}">home</a></li>
           <li><a class="btn-getstarted" href="{% url 'index' %}">Cart&nbsp;&nbsp;
             <div style="color:red;">{{ request.user|cart_item_count }}</div>
           </a></li>
@@ -419,12 +419,11 @@ h2 {
   </main>
 
   <!-- Footer Section -->
+  <!-- Footer Section -->
   <footer id="footer" class="footer light-background">
-    <div class="container text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Bethany</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">skin studio</strong> <span>All Rights Reserved</span></p>
+      
     </div>
   </footer>
 
