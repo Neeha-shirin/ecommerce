@@ -29,4 +29,6 @@ urlpatterns = [
     path('orders/edit/<int:order_id>/', views.edit_order, name='edit_order'),  # Edit an existing order
     path('admin/custom-banner/', views.custom_banner_admin, name='custom_banner_admin'),
     path('admin/edit-banner/<int:banner_id>/', views.edit_banner, name='edit_banner'),
+   
+
 ]

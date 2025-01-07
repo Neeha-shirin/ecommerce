@@ -5,146 +5,7 @@
 <html lang="en">
 
 <head>
-  <style>
-    
-    /* Make the section take full height of the screen */
-#banner {
-  position: relative;
-  height: 100vh; /* 100% of the viewport height */
-  background-color: black; /* Fallback color */
-}
-
-/* The banner content */
-.banner-content {
-  background-size: cover; /* Make the image cover the entire section */
-  background-position: center center; /* Keep the image centered */
-  height: 100%; /* Ensure it takes up full height of the section */
-  position: relative;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Optional overlay to improve text readability */
-.banner-content .overlay {
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.banner-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.banner-description {
-  font-size: 1.2rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-    /* General Section Styles */
-#product.categories {
-  background-color: #f9f9f9;
-  padding-top: 60px;
-  padding-bottom: 60px;
-}
-
-#product .container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-#product .row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#product h2 {
-  font-size: 36px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 40px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.card {
-  border: none;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  border-bottom: 4px solid #e6e6e6;
-  transition: transform 0.3s ease;
-}
-
-.card:hover img {
-  transform: scale(1.1);
-}
-
-.card-body {
-  padding: 20px;
-  background-color: white;
-  text-align: center;
-}
-
-.card-title {
-  font-size: 20px;
-  font-weight: 500;
-  color: #333;
-  margin-top: 20px;
-  text-transform: capitalize;
-  transition: color 0.3s ease;
-}
-
-.card-title:hover {
-  color: #007bff;
-}
-
-.col-lg-4, .col-md-6 {
-  margin-bottom: 30px;
-  padding: 0 15px;
-}
-
-@media (max-width: 991px) {
-  #product h2 {
-    font-size: 28px;
-  }
-
-  .col-lg-4 {
-    max-width: 45%;
-  }
-
-  .col-md-6 {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 767px) {
-  .col-lg-4, .col-md-6 {
-    max-width: 100%;
-  }
-
-  #product h2 {
-    font-size: 24px;
-  }
-}
-
-  </style>
+  
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>skin studio template </title>
@@ -169,6 +30,361 @@
 
   <!-- Main CSS File -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <style>
+/* Navigation Menu */
+/* Transparent Background for header-container */
+
+
+.header .header-container {
+  background-color: transparent;
+  transition: all 0.5s;
+  position: relative;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* General Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Fully Transparent Header Section */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 30px; /* Adjust padding */
+  z-index: 1000; /* Make sure header is above other content */
+  background: transparent; /* Completely transparent background */
+  box-shadow: none; /* Remove shadow */
+  backdrop-filter: blur(19px); /* Optional: Apply blur effect to background */
+}
+
+/* Header Container */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Logo - SKIN CARE */
+.sitename {
+  font-size: 1.6rem; /* Smaller font size */
+  font-weight: bolder; /* Make the text bold */
+  color: #755d1d; /* White color for text */
+  margin: 0;
+  margin-right: 373px;
+  text-decoration: none;
+  z-index: 1; /* Ensure logo stays visible */
+  
+}
+
+/* Navigation Menu */
+.navmenu {
+  display: flex;
+  align-items: center;
+}
+
+.navmenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navmenu ul li {
+  margin: 0 11px; /* Spacing between the items */
+}
+
+.navmenu ul li a {
+  text-decoration: none;
+  color: #292828; /* White text color */
+  font-size: 1rem; /* Standard font size */
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+  
+}
+
+/* Hover effect for navigation items */
+.navmenu ul li a:hover {
+  color: #5e4407; /* Highlight color on hover */
+}
+
+/* Button Styling */
+.btn-getstarted {
+  background: transparent;
+  color: #523e0a;
+  padding: 8px 15px;
+  border: 2px solid #fff; /* Border color same as text */
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-getstarted:hover {
+  background: rgba(255, 255, 255, 0.1); /* Subtle background on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .header-container {
+    justify-content: space-between;
+  }
+
+  .navmenu ul {
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: center; /* Center items */
+  }
+
+  .navmenu ul li {
+    margin: 10px 5px; /* Reduce spacing */
+  }
+
+  .sitename {
+    font-size: 1.3rem; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 767px) {
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .navmenu ul {
+    flex-direction: column; /* Stack menu items vertically */
+    padding: 0;
+  }
+
+  .navmenu ul li {
+    margin: 5px 0; /* Adjust spacing for vertical layout */
+  }
+
+  .btn-getstarted {
+    padding: 10px 20px; /* Larger buttons for mobile */
+  }
+}
+
+
+
+
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%; /* Ensure full height for the page */
+}
+
+/* Banner Section */
+#banner {
+  position: relative;
+  width: 100%; /* Full width */
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling if content overflows */
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%; /* Full height of the viewport */
+}
+
+.banner-content {
+  position: relative;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-size: cover; /* Ensures the image fully covers the div */
+  background-position: center; /* Centers the background image */
+  background-repeat: no-repeat; /* Prevents repeating the background image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
+  z-index: 1;
+}
+
+.text-container {
+  position: relative;
+  z-index: 2; /* Ensure text is above the overlay */
+  color: #fff;
+  padding: 20px;
+}
+
+.banner-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.banner-description {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #fff; /* Added color for text to ensure readability */
+}
+
+/* No Banner Styling */
+.no-banner {
+  font-size: 1.5rem;
+  color: #f3e5e5;
+  text-align: center;
+  margin: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  .banner-title {
+    font-size: 2.5rem;
+  }
+
+  .banner-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .banner-title {
+    font-size: 2rem;
+  }
+
+  .banner-description {
+    font-size: 0.9rem;
+  }
+}
+
+
+/* Product Categories Section */
+#product.categories {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+}
+
+/* Product Container */
+#product .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Product Row */
+#product .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Section Title */
+#product h2 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Product Card */
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Image */
+.card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 4px solid #e6e6e6;
+    transition: transform 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+/* Card Body */
+.card-body {
+    padding: 20px;
+    background-color: white;
+    text-align: center;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 20px;
+    text-transform: capitalize;
+    transition: color 0.3s ease;
+}
+
+.card-title:hover {
+    color: #007bff;
+}
+
+/* Column Spacing */
+.col-lg-4, .col-md-6 {
+    margin-bottom: 30px;
+    padding: 0 15px;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    #product h2 {
+        font-size: 28px;
+    }
+
+    .col-lg-4 {
+        max-width: 45%;
+    }
+
+    .col-md-6 {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .col-lg-4, .col-md-6 {
+        max-width: 100%;
+    }
+
+    #product h2 {
+        font-size: 24px;
+    }
+}
+
+
+  </style>
 </head>
 
 <body class="index-page">
@@ -176,14 +392,14 @@
   <!-- Header Section -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <h1 class="sitename">SKIN CARE</h1>
-    </a>
-
+     
+        <h1 class="sitename">SKIN STUDIO</h1>
+    
       <nav id="navmenu" class="navmenu">
+        
         <ul>
           {% if user.is_authenticated %}
-          <li><a class="btn-getstarted" href="{% url 'index'%}">Home</a></li>
+          <li><a class="navbar-brand" href="{% url 'index'%}">Home</a></li>
           <li><a class="navbar-brand" href="{% url 'orderlist' %}">Cart</a></li>
           
            
@@ -200,7 +416,7 @@
       <li class="nav-item">
         <a class="navbar-brand" href="{% url 'order_items' %}">My Order</a>
      </li>
-          <li><a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a></li>
+          <li><a class="navbar-brand" href="{% url 'user_logout' %}">Logout</a></li>
           {% else %}
           
           <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
@@ -212,26 +428,23 @@
   </header>
 
 
+  
   <!-- Banner Section -->
 <section id="banner" class="banner-section">
-  <div class="container">
-    <div class="row align-items-center text-center">
-      <div class="col-12">
-        {% for banner in banners %}
-        <div class="banner-content my-4">
-          <!-- Ensure the image is displayed properly -->
-          <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="img-fluid mb-3">
-          <h2 class="banner-title">{{ banner.title }}</h2>
-          <p class="banner-description">{{ banner.description }}</p>
-        </div>
-        {% empty %}
-        <p>No banners available.</p>
-        {% endfor %}
+  <div class="banner">
+    {% for banner in banners %}
+    <div class="banner-content" style="background-image: url('{{ banner.image.url }}');">
+      <div class="overlay"></div>
+      <div class="text-container">
+        <h2 class="banner-title">{{ banner.title }}</h2>
+        <p class="banner-description">{{ banner.description }}</p>
       </div>
     </div>
+    {% empty %}
+    <p class="no-banner">No banners available.</p>
+    {% endfor %}
   </div>
 </section>
-
 
   <!-- Main Content -->
   <main class="main">

@@ -224,3 +224,5 @@ def edit_banner(request, banner_id):
     else:
         form = BannerForm(instance=banner)
     return render(request, 'adminpanel/edit_banner.html', {'form': form})
+
+
