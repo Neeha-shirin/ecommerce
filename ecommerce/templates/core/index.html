@@ -384,6 +384,7 @@ body, html {
 }
 
 
+
   </style>
 </head>
 
@@ -419,8 +420,8 @@ body, html {
           <li><a class="navbar-brand" href="{% url 'user_logout' %}">Logout</a></li>
           {% else %}
           
-          <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
-          <li><a class="btn-getstarted" href="{% url 'user_register' %}">Register</a></li>
+          <li><a class="navbar-brand" href="{% url 'user_login' %}">Login</a></li>
+          <li><a class="navbar-brand" href="{% url 'user_register' %}">Register</a></li>
           {% endif %}
         </ul>
       </nav>
@@ -490,8 +491,12 @@ body, html {
         </div>
       </div>
     </section>
+    <div class="moving-container">
+      <p class="moving-paragraph">"Healthy skin is a reflection of consistent care and self-love."</p>
+    </div>
+    
   </main>
-
+  
   <!-- Footer Section -->
   <footer id="footer" class="footer light-background">
     <div class="container copyright text-center mt-4">

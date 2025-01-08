@@ -6,11 +6,11 @@
 
 <head>
   <style>
-    /* General Styles */
+   /* General Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5;
-    color: #212529;
+    background-color: #f7f3ef; /* Nude shade background */
+    color: #6e6e6e; /* Muted text color */
     margin: 0;
     padding: 0;
 }
@@ -21,12 +21,12 @@ a {
 }
 
 a:hover {
-    color: #17a2b8;
+    color: #c48b72; /* Nude-themed hover color */
 }
 
 /* Header */
 header {
-    background: linear-gradient(90deg, #343a40 0%, #495057 100%);
+    background: #e6d9ce; /* Light nude background */
     padding: 20px 0;
     position: sticky;
     top: 0;
@@ -34,53 +34,78 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.header .header-container {
+    background-color: transparent;
+    transition: all 0.5s;
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 .sitename {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: 26px;
-    color: #fff;
-    letter-spacing: 1px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #5e4a3e; /* Dark nude color */
+    text-decoration: none;
 }
 
 .navmenu ul {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
     display: flex;
-    gap: 20px;
+    align-items: center;
+}
+
+.navmenu ul li {
+    margin: 0 15px;
 }
 
 .navmenu ul li a {
-    color: #fff;
-    font-size: 16px;
-    padding: 10px 15px;
-    border-radius: 30px;
-    background-color: transparent;
-    transition: background-color 0.3s ease, transform 0.2s;
+    text-decoration: none;
+    color: #5e4a3e; /* Darker nude for text */
+    font-size: 1rem;
+    padding: 8px 12px;
+    transition: color 0.3s ease;
 }
 
 .navmenu ul li a:hover {
-    background-color: #17a2b8;
-    transform: scale(1.05);
+    color: #c48b72; /* Highlight color on hover */
+}
+
+.btn-getstarted {
+    background: #c48b72; /* Button color in nude palette */
+    color: #fff;
+    padding: 8px 15px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-getstarted:hover {
+    background: #a67055; /* Slightly darker nude */
+    transform: translateY(-2px);
 }
 
 /* Main Section */
 .main {
     padding: 60px 0;
-    background-color: #ffffff;
 }
 
 h2 {
-    font-size: 32px;
-    font-weight: 700;
-    color: #343a40;
+    font-size: 36px;
+    font-weight: bold;
+    color: #5e4a3e;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #ffffff;
+    background-color: #fdf8f5;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -92,18 +117,18 @@ h2 {
 }
 
 .table th {
-    background-color: #17a2b8;
-    color: #ffffff;
+    background-color: #e6d9ce; /* Header background */
+    color: #5e4a3e;
     font-weight: 600;
 }
 
 .table td {
     border-bottom: 1px solid #f1f1f1;
-    color: #495057;
+    color: #6e6e6e;
 }
 
 .table tbody tr:hover {
-    background-color: #f8f9fa;
+    background-color: #fdf0ea; /* Soft hover effect */
 }
 
 .table td img {
@@ -120,22 +145,22 @@ h2 {
 }
 
 .table .btn-outline-danger {
-    border: 1px solid #dc3545;
-    color: #dc3545;
+    border: 1px solid #d9534f;
+    color: #d9534f;
 }
 
 .table .btn-outline-danger:hover {
-    background-color: #dc3545;
+    background-color: #d9534f;
     color: white;
 }
 
 .table .btn-outline-success {
-    border: 1px solid #28a745;
-    color: #28a745;
+    border: 1px solid #5cb85c;
+    color: #5cb85c;
 }
 
 .table .btn-outline-success:hover {
-    background-color: #28a745;
+    background-color: #5cb85c;
     color: white;
 }
 
@@ -149,20 +174,20 @@ h2 {
 
 .card-body {
     padding: 30px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    background: #f7f3ef; /* Soft nude */
 }
 
 .card-title {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #212529;
+    color: #5e4a3e;
 }
 
 .list-group-item {
     font-size: 16px;
     padding: 15px 20px;
-    background-color: #ffffff;
+    background-color: #fff;
     border: none;
     display: flex;
     justify-content: space-between;
@@ -171,7 +196,7 @@ h2 {
 
 .list-group-item span {
     font-weight: 700;
-    color: #343a40;
+    color: #5e4a3e;
 }
 
 .text-center {
@@ -183,7 +208,7 @@ h2 {
 }
 
 .btn-success {
-    background-color: #28a745;
+    background-color: #c48b72; /* Nude button color */
     border: none;
     color: #fff;
     padding: 12px 20px;
@@ -196,50 +221,28 @@ h2 {
 }
 
 .btn-success:hover {
-    background-color: #218838;
-    transform: scale(1.05);
+    background-color: #a67055; /* Darker nude for hover */
+    transform: scale(1.05); /* Subtle hover effect */
 }
 
-.btn-getstarted {
-    color: #ffffff;
-    background-color: #17a2b8;
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.btn-getstarted:hover {
-    background-color: #138496;
-    transform: scale(1.05);
-}
 
 /* Footer */
 footer {
-    background: #343a40;
-    color: #ffffff;
+    background: #5e4a3e;
+    color: #fff;
     padding: 40px 0;
-}
-
-footer .sitename {
-    font-weight: 700;
-    font-size: 20px;
+    text-align: center;
 }
 
 footer p {
     font-size: 16px;
     margin-bottom: 15px;
-    color: #adb5bd;
+    color: #e6d9ce;
 }
 
-footer .credits a {
-    color: #17a2b8;
-    font-weight: 600;
-}
-
-footer .credits a:hover {
-    text-decoration: underline;
+footer .sitename {
+    font-weight: 700;
+    font-size: 20px;
 }
 
 /* Responsive Design */
@@ -262,16 +265,7 @@ footer .credits a:hover {
         padding: 20px;
     }
 }
-h2 {
-    font-size: 36px; /* Large font size for prominence */
-    font-weight: 900; /* Extra bold */
-    color: #ff007f; /* Vibrant pink color */
-    text-transform: uppercase; /* Make text uppercase */
-    letter-spacing: 2px; /* Add spacing between letters for style */
-    text-align: center; /* Center the text */
-    margin-bottom: 30px; /* Space below the heading */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
-}
+
 
 
 
@@ -304,24 +298,29 @@ h2 {
 
 <body class="cart-page">
 
-  <!-- Header Section -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
+   <!-- Header Section -->
+   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <h1 class="sitename">SKIN CARE</h1>
-      </a>
+     
+        <h1 class="sitename">SKIN STUDIO</h1>
+    
       <nav id="navmenu" class="navmenu">
+        
         <ul>
           {% if user.is_authenticated %}
-          <li><a class="btn-getstarted" href="{% url 'index' %}">home</a></li>
-          <li><a class="btn-getstarted" href="{% url 'index' %}">Cart&nbsp;&nbsp;
-            <div style="color:red;">{{ request.user|cart_item_count }}</div>
+          <li><a class="navbar-brand" href="{% url 'index'%}">Home</a></li>
+          <li><a class="navbar-brand" href="{% url 'index' %}">Cart&nbsp;&nbsp;
+            <div style="color:yellow;">{{ request.user|cart_item_count }}</div>
           </a></li>
-          <li><a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a></li>
+          
+           
+          </a></li>
+          
+          <li><a class="navbar-brand" href="{% url 'user_logout' %}">Logout</a></li>
           {% else %}
-          <li><a class="btn-getstarted" href="index.html#about">Welcome {{ user.username }}</a></li>
-          <li><a class="btn-getstarted" href="{% url 'user_login' %}">Login</a></li>
-          <li><a class="btn-getstarted" href="{% url 'user_register' %}">Register</a></li>
+          
+          <li><a class="navbar-brand" href="{% url 'user_login' %}">Login</a></li>
+          <li><a class="navbar-brand" href="{% url 'user_register' %}">Register</a></li>
           {% endif %}
         </ul>
       </nav>
