@@ -210,8 +210,10 @@ def delete_address(request, address_id):
 
 
 
-@login_required
+@login_required(login_url='user_login')
 def order_items(request):
+    if request.user.is_superuser:
+         return redirect('user_login')
     # Fetch orders sorted by the latest order first
     orders = MyOrders.objects.filter(user=request.user).select_related('product').order_by('-ordered_date')
     return render(request, 'orderpayment/order_items.html', {'orders': orders})

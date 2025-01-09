@@ -8,10 +8,10 @@
         /* General Body Styling */
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom right, #edf4e2, #cde5b5);
+            background: linear-gradient(to bottom right, #f9e8d6, #f1d8b5); /* Soft nude gradient */
             margin: 0;
             padding: 0;
-            color: #2c3e50;
+            color: #5f4b3a; /* Dark brown text for contrast */
         }
 
         .container {
@@ -21,17 +21,17 @@
         }
 
         .card {
-            background-color: #f9f9f2;
+            background-color: #fef7e4; /* Light beige for the card background */
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             padding: 30px;
-            border: 1px solid #d4e5c1;
+            border: 1px solid #d1c8a8; /* Soft beige border */
         }
 
         h3 {
             text-align: center;
-            color: #3d663d;
+            color: #5f4b3a; /* Soft brown header color */
             margin-bottom: 20px;
             font-size: 28px;
         }
@@ -40,7 +40,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background-color: #f9fff1;
+            background-color: #faf7e8; /* Light cream background */
             border-radius: 8px;
             overflow: hidden;
         }
@@ -48,12 +48,12 @@
         th, td {
             padding: 16px;
             text-align: left;
-            border-bottom: 1px solid #d6e9c6;
+            border-bottom: 1px solid #e2d7b1; /* Light brownish border for rows */
         }
 
         th {
-            background-color: #88b572;
-            color: white;
+            background-color: #d0c3a1; /* Soft beige background for header */
+            color: #5f4b3a; /* Brownish text */
             font-size: 16px;
         }
 
@@ -62,11 +62,11 @@
         }
 
         tr:nth-child(even) td {
-            background-color: #eef6df;
+            background-color: #f5f0e2; /* Slightly lighter beige for alternating rows */
         }
 
         tr:hover td {
-            background-color: #e5f2d8;
+            background-color: #f0e6d4; /* Highlight rows on hover with light beige */
         }
 
         .badge {
@@ -79,24 +79,24 @@
         }
 
         .badge-pending {
-            background-color: #ffcc66;
+            background-color: #e7bb72; /* Soft amber color for pending status */
         }
 
         .badge-shipped {
-            background-color: #87ceeb;
+            background-color: #a1c7d2; /* Soft pastel blue for shipped status */
         }
 
         .badge-delivered {
-            background-color: #78c000;
+            background-color: #7cbf6f; /* Soft olive green for delivered status */
         }
 
         .badge-cancelled {
-            background-color: #e57373;
+            background-color: #f1a1a1; /* Light red for cancelled status */
         }
 
         .btn {
             padding: 10px 20px;
-            background-color: #66b266;
+            background-color: #f0b47e; /* Soft peach color for buttons */
             color: white;
             border: none;
             border-radius: 5px;
@@ -107,36 +107,36 @@
         }
 
         .btn:hover {
-            background-color: #558a55;
+            background-color: #d79e65; /* Darker peach color on hover */
         }
 
         .btn-cancel {
-            background-color: #e57373;
+            background-color: #f1a1a1; /* Light red color for cancel button */
         }
 
         .btn-cancel:hover {
-            background-color: #cc4444;
+            background-color: #e06e6e; /* Darker red on hover */
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #a1b7d2; /* Soft blue for primary action button */
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #8b9fb0; /* Darker blue on hover */
         }
 
         .highlight-latest {
-            background-color: #eef2d8;
+            background-color: #f3ead6; /* Very soft beige for the latest order */
             font-weight: bold;
         }
 
         .empty-state {
             text-align: center;
             font-size: 18px;
-            color: #788775;
+            color: #7f6f53; /* Warm brownish-gray for the empty state text */
             padding: 30px;
-            background-color: #f0f8e6;
+            background-color: #f8f1e1; /* Very light peach background */
             border-radius: 8px;
         }
     </style>
@@ -165,7 +165,6 @@
                 <tr class="{% if forloop.first %}highlight-latest{% endif %}">
                     <td>{{ forloop.counter }}</td>
                     <td>{{ order.id }}</td>
-                    
                     <td>{{ order.address }}</td>
                     <td>
                         <span class="badge 
@@ -184,13 +183,12 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-cancel">Cancel Order</button>
                         </form>
-                        <td>
-                            {{ order.product.name }}
-                            <br>
-                            <a href="{% url 'order_details' order.id %}" class="btn">View Details</a>
-                        </td>
                         {% endif %}
-                       
+                    </td>
+                    <td>
+                        {{ order.product.name }}
+                        <br>
+                        <a href="{% url 'order_details' order.id %}" class="btn btn-primary">View Details</a>
                     </td>
                 </tr>
                 {% empty %}

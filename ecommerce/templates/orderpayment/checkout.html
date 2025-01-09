@@ -1,55 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         /* General Styling */
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #edf7ed;
-            color: #2c3e50;
+            background-color: #f6f1e9; /* Soft nude background */
+            color: #5f4b3a; /* Dark brown for text */
             margin: 0;
             padding: 0;
         }
 
         /* Form Container */
         .form-container {
-            background-color: #ffffff;
-            max-width: 850px;
+            background-color: #ffffff; /* White background for the form */
+            max-width: 900px;
             margin: 50px auto;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border: 1px solid #d6e8d6;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e8d7c4; /* Light beige border */
         }
 
         h1, h3 {
             text-align: center;
-            color: #34495e;
+            color: #5f4b3a; /* Soft brown color for headers */
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
+        /* Address Container */
         .address-container {
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #d6e8d6;
-            border-radius: 12px;
-            background-color: #f9fcf9;
+            padding: 10px 12px; /* Reduced padding */
+            margin-bottom: 15px; /* Reduced margin */
+            border: 1px solid #f4e1d2;
+            border-radius: 10px;
+            background-color: #f9e8d6; /* Light beige background */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: auto; /* Set width to auto */
+            max-width: 100%; /* Prevent it from getting too wide */
             transition: background-color 0.3s;
         }
 
         .address-container:hover {
-            background-color: #eaf5ea;
+            background-color: #f6d8b2; /* Slightly darker beige on hover */
+        }
+
+        .address-container label {
+            word-wrap: break-word; /* Ensure long addresses wrap correctly */
+            max-width: 80%; /* Limit max width for text */
         }
 
         .btn {
             display: inline-block;
-            background-color: #5cb85c;
+            background-color: #f0b47e; /* Soft peach button */
             color: #ffffff;
             padding: 12px 18px;
             border: none;
@@ -61,20 +69,14 @@
         }
 
         .btn:hover {
-            background-color: #4cae4c;
+            background-color: #e8a74f; /* Darker peach color */
         }
 
-        .delete-button {
-            background-color: #e74c3c;
-        }
-
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-
+        /* Payment Method Section */
         .radio-label {
             display: flex;
             align-items: center;
+            margin-bottom: 15px;
         }
 
         input[type="radio"] {
@@ -82,11 +84,11 @@
         }
 
         .amount {
-            font-size: 22px;
+            font-size: 24px;
             text-align: center;
-            color: #27ae60;
+            color: #f0b47e; /* Soft peach for the total amount */
             margin: 30px 0;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .text-center {
@@ -96,7 +98,7 @@
         .add-new-link {
             display: inline-block;
             color: #ffffff;
-            background-color: #2e8b57;
+            background-color: #f0b47e; /* Soft peach button */
             padding: 14px 22px;
             text-decoration: none;
             font-size: 15px;
@@ -105,9 +107,10 @@
         }
 
         .add-new-link:hover {
-            background-color: #276c48;
+            background-color: #e8a74f; /* Darker peach color */
         }
 
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .form-container {
                 padding: 25px;
@@ -118,12 +121,9 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
-
-            .delete-button {
-                margin-top: 10px;
-            }
         }
 
+        /* Importing Montserrat font */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
     </style>
     <title>Checkout</title>
@@ -139,10 +139,9 @@
             <div class="address-container">
                 <label class="radio-label">
                     <input type="radio" name="address_id" value="{{ address.id }}" required>
-                    <span>{{ address.full_name }}, {{ address.address_line }}, {{ address.city }}, 
+                    <span>{{ address.full_name }}, {{ address.address_line }}, {{ address.city }},
                         {{ address.state }}, {{ address.zip_code }}</span>
                 </label>
-                <button type="button" onclick="deleteAddress('{{ address.id }}')" class="btn delete-button">Delete</button>
             </div>
             {% endfor %}
 
@@ -169,59 +168,5 @@
             </div>
         </form>
     </div>
-
-    <script>
-        /**
-         * Retrieve the CSRF token from cookies
-         */
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.startsWith(name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        /**
-         * Function to delete an address
-         * Sends a POST request to delete the specified address and handles the response.
-         */
-        function deleteAddress(addressId) {
-            if (!confirm("Are you sure you want to delete this address?")) {
-                return;
-            }
-
-            fetch(`/delete_address/${addressId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    'address_id': addressId,
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message || "Address deleted successfully!");
-                    location.reload();
-                } else {
-                    alert(data.error || "Failed to delete the address.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("An unexpected error occurred. Please try again.");
-            });
-        }
-    </script>
 </body>
 </html>

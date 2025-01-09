@@ -382,6 +382,72 @@ body, html {
         font-size: 24px;
     }
 }
+/* Footer Section Styling */
+.footer {
+  background-color: #f9f9f9; /* Light background color */
+  padding: 20px 0;           /* Padding for top and bottom */
+  border-top: 1px solid #e0e0e0; /* Subtle border at the top */
+  font-family: 'Arial', sans-serif; /* Clean and modern font */
+  font-size: 14px;           /* Font size */
+  color: #555;               /* Default text color */
+}
+
+.footer .container {
+  max-width: 1200px; /* Optional: limit the max width of content */
+  margin: 0 auto;    /* Center the content */
+}
+
+.footer .copyright {
+  display: flex;
+  flex-direction: column;   /* Stack items vertically */
+  align-items: center;      /* Center items horizontally */
+  justify-content: center;  /* Center items vertically */
+  text-align: center;       /* Ensure text is centered */
+}
+
+.footer h5 {
+  margin: 0;                /* Remove default margin */
+  line-height: 1.5;         /* Improve text readability */
+}
+
+.footer p {
+  margin: 0;                /* Remove default margin */
+  line-height: 1.5;         /* Improve text readability */
+}
+
+.footer .sitename {
+  color: #ff5733;           /* Custom color for sitename */
+  font-weight: bold;        /* Bold text for emphasis */
+  font-size: 18px;          /* Slightly larger font size for sitename */
+}
+
+.footer p, .footer h5 {
+  margin-bottom: 5px;        /* Add some space between the elements */
+}
+
+.footer a {
+  text-decoration: none;    /* Remove underline from links */
+  color: inherit;           /* Make link color inherit from parent */
+  transition: color 0.3s;    /* Smooth color transition for hover effect */
+}
+
+.footer a:hover {
+  color: #007bff;           /* Color change on hover */
+}
+/* Styling for .footname */
+.footname {
+  font-weight: bold;        /* Make the text bold */
+  font-size: 20px;          /* Slightly larger font size for emphasis */
+  color: #513605;              /* Dark color for sitename */
+  display: inline-block;    /* Allow padding and margin to be applied */
+  text-align: center;       /* Ensure the text is centered */
+}
+
+/* Styling for .px-1 */
+.px-1 {
+  padding-left: 8px;        /* Apply padding on the left side */
+  padding-right: 8px;       /* Apply padding on the right side */
+}
 
 
 
@@ -491,16 +557,16 @@ body, html {
         </div>
       </div>
     </section>
-    <div class="moving-container">
-      <p class="moving-paragraph">"Healthy skin is a reflection of consistent care and self-love."</p>
-    </div>
+    
     
   </main>
   
   <!-- Footer Section -->
   <footer id="footer" class="footer light-background">
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">skin studio</strong> <span>All Rights Reserved</span></p>
+      <strong class="px-1 footname">skin studio</strong>
+      <p>All Rights Reserved</p>
+      <h6>©Copyright</h6>
       
     </div>
   </footer>
