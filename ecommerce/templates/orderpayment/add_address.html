@@ -1,14 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Address</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4e1d2; /* Nude pink background */
+            color: #5e3c40; /* Darker pink text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color:rgb(133, 81, 73); /* Soft nude pink header */
+            margin-top: 20px;
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #d0847c; /* Darker pink for labels */
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #f0b7a8; /* Lighter pink border */
+            border-radius: 8px;
+            background-color: #fff8f3;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus {
+            border-color: #f7c7c0; /* Soft pink focus border */
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 105, 105, 0.5);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Submit Button */
+        button[type="submit"] {
+            background-color:rgb(187, 138, 131); /* Soft nude pink */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e6b1a2; /* Slightly darker pink on hover */
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #f7c7c0;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Page Header -->
     <h1>Add Address</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Address</button>
-    </form>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Render the form fields -->
+            {{ form.as_p }}
+            <button type="submit">Save Address</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Address Management. All Rights Reserved.</p>
+    </footer>
+
 </body>
 </html>

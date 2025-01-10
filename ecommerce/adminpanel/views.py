@@ -32,13 +32,13 @@ def activate_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     user.is_active = True
     user.save()
-    return redirect('adminpanel:usermanagement')
+    return redirect('adminpanel:user_management')
 
 def deactivate_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     user.is_active = False
     user.save()
-    return redirect('adminpanel:usermanagement')
+    return redirect('adminpanel:user_management')
 
 def logout_view(request):
     return redirect('adminpanel:admindashboard')  
