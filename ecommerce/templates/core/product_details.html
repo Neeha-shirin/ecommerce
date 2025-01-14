@@ -84,7 +84,7 @@ section.categories {
 .card-text.text-primary {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #007bff; /* Bootstrap primary color */
+    color:rgb(167, 202, 238); /* Bootstrap primary color */
 }
 
 /* Responsive Breakpoints */
@@ -208,22 +208,23 @@ button:active {
         }
 
         .product-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
+            font-style:timesince
             margin-bottom: 1rem;
-            color: #333;
+            color:rgb(18, 18, 18);
         }
 
         .product-price {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #007bff;
+            color:rgb(185, 46, 41);
             margin-bottom: 1rem;
         }
 
         .product-description {
-            font-size: 1.1rem;
-            color: #555;
+            font-size: 1rem;
+            color:rgba(45, 74, 20, 0.93);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
@@ -231,7 +232,7 @@ button:active {
         .product-stock {
             font-size: 1.1rem;
             font-weight: bold;
-            color: green;
+            color:rgba(67, 113, 27, 0.93);
             margin-bottom: 1.5rem;
         }
 
@@ -361,7 +362,7 @@ button:active {
             <div class="product-info">
                 <!-- Product Title -->
                 <h1 class="product-title">{{ product.name }}</h1>
-                <h1 class="product-title">{{ product.desc }}</h1>
+                <h1 class="product-description">{{ product.desc }}</h1>
 
                 <!-- Product Price -->
                 <p class="product-price">Rs: {{ product.price }}</p>

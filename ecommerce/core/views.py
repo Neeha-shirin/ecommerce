@@ -54,9 +54,8 @@ def product_details(request, pk):
     # Fetch the main product based on the pk (primary key)
     product = get_object_or_404(Product, id=pk)
     
-    # Fetch similar products (all products except the current one, you can modify the filtering logic as needed)
-    similar_products = Product.objects.exclude(id=pk)[:6]  # Adjust the number of similar products
-    
+   
+    similar_products = Product.objects.exclude(id=pk)[:6]  
     # Pass both the main product and the similar products to the template
     return render(request, 'core/product_details.html', {
         'product': product, 
@@ -102,9 +101,9 @@ def add_to_cart(request, pk):
     # Check if the cart is empty
     if not order.items.exists():
         messages.error(request, "Your cart is empty! Please add items to proceed.")
-        return redirect('current_page')  # Replace 'current_page' with the name of the current page's URL
+        return redirect('current_page')  
 
-    return redirect('orderlist')  # Replace 'orderlist' with your desired URL for the order summary or checkout page
+    return redirect('orderlist')  
 
 
 # Remove Item from Cart
@@ -127,13 +126,13 @@ def remove_item_from_cart(request, item_id):
 
 
 def update_item_quantity(request, item_id, action):
-    # First, check if the user has an active order, or get their cart order
+   
     try:
-        # Get the active order (assuming it exists)
+        
         order = Order.objects.get(user=request.user, ordered=False)
     except Order.DoesNotExist:
         messages.error(request, "You do not have an active order.")
-        return redirect('orderlist')  # Redirect to the cart or order list page
+        return redirect('orderlist')
 
     # Get the order item
     order_item = get_object_or_404(OrderItem, id=item_id, order=order)  # Make sure it's tied to the order

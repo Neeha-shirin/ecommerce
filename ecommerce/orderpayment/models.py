@@ -40,7 +40,6 @@ class MyOrders(models.Model):
         ('Shipped', 'Shipped'),
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
-        ('Returned', 'Returned'),
     )
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)

@@ -47,10 +47,9 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE
-    )
+   
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(null=True, blank=True)
@@ -86,14 +85,6 @@ class Wishlist(models.Model):
 
     class Meta:
         unique_together = ('user', 'product') 
-
-
-
-
-
-
-
-
 
 
 class Banner(models.Model):

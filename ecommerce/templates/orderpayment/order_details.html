@@ -9,114 +9,105 @@
         /* General Body Styling */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f9f4; /* Soft nude green background */
+            background-color: #f7f3f1;
+            color: #5c5a5a;
             margin: 0;
             padding: 0;
-            color: #2c3e50;
         }
 
+        /* Container Styling */
         .container {
-            max-width: 800px;
+            width: 80%;
             margin: 50px auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
 
+        /* Card Styling */
         .card {
-            border: none;
-            border-radius: 12px;
-            background: #fefdfc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
         }
 
         .card-title {
-            font-size: 1.75rem;
+            text-align: center;
+            color:rgb(136, 87, 90);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border-color: #e0aeb1;
+            margin-bottom: 20px;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 1.4em;
+            color: #d19c9c;
+            margin-bottom: 40px;
+        }
+
+        /* Order Status Text Styling */
+        p {
+            text-align: center;
+            font-size: 2.2em;
             font-weight: bold;
-            color: #3d663d;
-            margin-bottom: 15px;
-            text-align: center;
+            color:rgb(182, 120, 120);
+            margin-bottom: 30px;
         }
 
-        .card-description {
-            font-size: 0.9rem;
-            color: #5c6e5c;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
+        /* Progress List Styling */
         .progress-list {
-            position: relative;
-            padding-left: 35px;
-            margin: 0;
+            padding: 0;
+            list-style-type: none;
         }
 
-        .progress-list::before {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 0;
-            width: 3px;
-            height: 100%;
-            background: #e6eee6;
-            z-index: 0;
-            border-radius: 2px;
+        /* Each Step Item */
+        .d-flex {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
         }
 
         .icon-container {
-            position: relative;
-            z-index: 1;
-            font-size: 1.75rem;
-            color: #9ba89b;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
+            background-color: #f2c6a0;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f0f7f0;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
             margin-right: 15px;
         }
 
-        .icon-container i {
-            font-size: 1.5rem;
+        .step-label {
+            font-size: 1.2em;
+            color: #888;
         }
 
-        .step-label {
-            z-index: 1;
-            color: #5e6f5e;
-            font-weight: 500;
-            font-size: 1rem;
+        /* Tick Icon Styles */
+        .fas.fa-check-circle {
+            font-size: 20px;
+            transition: color 0.3s;
         }
 
         .text-success {
-            color: #3d663d !important;
-            font-weight: bold;
+            color: #4caf50;
         }
 
         .text-muted {
-            color: #9ba89b !important;
+            color: #b0b0b0;
         }
 
-        @media (max-width: 768px) {
-            .progress-list {
-                padding-left: 20px;
-            }
-
-            .icon-container {
-                font-size: 1.5rem;
-                width: 40px;
-                height: 40px;
-            }
+        /* Step labels in active status */
+        .text-success {
+            color: #4caf50 !important;
         }
 
-        hr {
-            border: 0;
-            border-top: 1px solid #e6eee6;
-            margin: 20px 0;
+        .text-muted {
+            color: #d1d1d1;
         }
     </style>
 </head>
@@ -125,45 +116,58 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"> Order Track </h4>
-            
+            <h4 class="card-title">Order Track</h4>
             <hr />
-            <h5 style="color: #3d663d;">Order Tracking</h5>
+            <h5 style="color: #d19c9c;">Order Tracking</h5>
             <ul class="list-unstyled progress-list">
-                <!-- Example Data (Replace with dynamic data as required) -->
+                <!-- Debugging: Show the order status -->
+                <p>Order Status: {{ order.status }}</p>
+            
+                <!-- Order Placed Step -->
                 <li class="d-flex align-items-center mb-4 position-relative">
                     <div class="icon-container">
-                        <i class="fas fa-check-circle text-success"></i>
+                        <!-- Show tick if the order status is not 'Pending' -->
+                        <i class="fas fa-check-circle {% if order.status != 'Pending' %}text-success{% else %}text-muted{% endif %}"></i>
                     </div>
-                    <div class="step-label text-success">
+                    <div class="step-label {% if order.status != 'Pending' %}text-success{% else %}text-muted{% endif %}">
                         Order Placed
                     </div>
                 </li>
+            
+                <!-- Order Confirmed Step -->
                 <li class="d-flex align-items-center mb-4 position-relative">
                     <div class="icon-container">
-                        <i class="fas fa-check-circle text-muted"></i>
+                        <!-- Show tick if the order status is in shipped_statuses -->
+                        <i class="fas fa-check-circle {% if order.status in shipped_statuses %}text-success{% else %}text-muted{% endif %}"></i>
                     </div>
-                    <div class="step-label">
+                    <div class="step-label {% if order.status in shipped_statuses %}text-success{% else %}text-muted{% endif %}">
                         Order Confirmed
                     </div>
                 </li>
+            
+                <!-- Order Shipped Step -->
                 <li class="d-flex align-items-center mb-4 position-relative">
                     <div class="icon-container">
-                        <i class="fas fa-check-circle text-muted"></i>
+                        <!-- Show tick if the order status is in delivered_statuses -->
+                        <i class="fas fa-check-circle {% if order.status in shipped_statuses %}text-success{% else %}text-muted{% endif %}"></i>
                     </div>
-                    <div class="step-label">
+                    <div class="step-label {% if order.status in shipped_statuses %}text-success{% else %}text-muted{% endif %}">
                         Order Shipped
                     </div>
                 </li>
+            
+                <!-- Order Delivered Step -->
                 <li class="d-flex align-items-center mb-4 position-relative">
                     <div class="icon-container">
-                        <i class="fas fa-check-circle text-muted"></i>
+                        <!-- Show tick only if the order is 'Delivered' -->
+                        <i class="fas fa-check-circle {% if order.status == 'Delivered' %}text-success{% else %}text-muted{% endif %}"></i>
                     </div>
-                    <div class="step-label">
+                    <div class="step-label {% if order.status == 'Delivered' %}text-success{% else %}text-muted{% endif %}">
                         Order Delivered
                     </div>
                 </li>
             </ul>
+            
         </div>
     </div>
 </div>

@@ -181,7 +181,8 @@
                         {% if order.status != 'Cancelled' %}
                         <form action="{% url 'cancel_order' order.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-cancel">Cancel Order</button>
+                            <button type="submit" class="btn btn-cancel"  onclick="return confirm('Are sure?');">Cancel Order</button>
+                            
                         </form>
                         {% endif %}
                     </td>

@@ -220,16 +220,27 @@ def order_items(request):
 
 
 
+from django.shortcuts import get_object_or_404, render
+from .models import MyOrders
+
 def order_details(request, order_id):
-   
     order = get_object_or_404(MyOrders, id=order_id, user=request.user)
-    order_status_choices = MyOrders.ORDER_STATUS_CHOICES 
+    order.refresh_from_db()
+
+    # Debugging the order status (add this line)
+    print(order.status)  # Check what value is getting passed
+
+    shipped_statuses = ['Shipped', 'Delivered', 'Returned']
+    delivered_statuses = ['Delivered', 'Returned']
 
     return render(request, "orderpayment/order_details.html", {
         'order': order,
-        'order_status_choices': order_status_choices,
-       
+        'shipped_statuses': shipped_statuses,
+        'delivered_statuses': delivered_statuses,
     })
+
+
+
 
 
 def cancel_order(request, order_id):
@@ -245,4 +256,4 @@ def cancel_order(request, order_id):
         order.status = 'Cancelled'
         order.save()
 
-    return redirect('order_items')  # Or any other page you want to redirect to
+    return redirect('order_items')  
