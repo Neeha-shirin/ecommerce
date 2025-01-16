@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'adminpanel',
     'orderpayment',
+   
 ]
 
 MIDDLEWARE = [
@@ -87,12 +88,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME'),
-        'USER':  config('DB_USER'),
-        'PASSWORD':config('DB_PASSWORD'),
-        'HOST':  config('DB_HOST'),
-        'PORT': '5432',
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
+
 
 
 
@@ -162,3 +164,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+
+

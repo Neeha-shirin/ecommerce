@@ -4,5 +4,6 @@
 <form method="POST">
     {% csrf_token %}
     <button type="submit">Delete</button>
-    <a href="{% url 'adminpanel:delete_product' %}">Cancel</a>
+    <!-- Redirect to the product dashboard or another appropriate page -->
+    <a href="{% url 'adminpanel:product_dashboard' %}">Cancel</a>
 </form>
