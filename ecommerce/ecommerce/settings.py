@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+import environ # type: ignore
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,10 +82,11 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 
-import environ
+# import environ
 
 # Initialize environ to load environment variables from .env
 env = environ.Env()
+
 
 # Reading .env file if it exists
 environ.Env.read_env()
