@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 
-# import environ
+import environ
 
 # Initialize environ to load environment variables from .env
 env = environ.Env()
