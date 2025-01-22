@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import environ 
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,26 +83,18 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 
-import environ
-
-# Initialize environ to load environment variables from .env
-env = environ.Env()
-
-
-# Reading .env file if it exists
-environ.Env.read_env()
+from decouple import config
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),  # Accessing the environment variable
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT', default='5432'),  # Default to 5432 if not set
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
-
 
 
 
@@ -163,18 +156,15 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 
-# Initialize django-environ
-import environ
+from decouple import config
 
-env = environ.Env()
-environ.Env.read_env()
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int, default=0)  # Convert to int, default 0 if not set
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=False)  # Convert to bool, default False if not set
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-EMAIL_BACKEND = env('EMAIL_BACKEND')
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env.int('EMAIL_PORT', default=0)  # Convert to int, default 0 if not set
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=False)  # Convert to bool, default False if not set
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
