@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-g7n3i)*$t!&tu4pr_u()%jyy@#lxxxcd+4@m*(g)#bk90_rmg9
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -82,19 +82,25 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 
+import environ
 
-import os
+# Initialize environ to load environment variables from .env
+env = environ.Env()
+
+# Reading .env file if it exists
+environ.Env.read_env()
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': env('DB_NAME'),  # Accessing the environment variable
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT', default='5432'),  # Default to 5432 if not set
     }
 }
+
 
 
 
@@ -156,16 +162,18 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 
-import os
+# Initialize django-environ
+import environ
 
-EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 0))  # Cast to int, default 0 if not set
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False').lower() in ['true', '1']  # Cast to bool
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+env = environ.Env()
+environ.Env.read_env()
 
-STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env.int('EMAIL_PORT', default=0)  # Convert to int, default 0 if not set
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=False)  # Convert to bool, default False if not set
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
