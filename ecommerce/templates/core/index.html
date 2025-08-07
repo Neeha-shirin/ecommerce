@@ -456,43 +456,36 @@ body, html {
 
 <body class="index-page">
 
-  <!-- Header Section -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
-     
-        <h1 class="sitename">SKIN STUDIO</h1>
+<!-- Header Section -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
     
-      <nav id="navmenu" class="navmenu">
-        
-        <ul>
-          {% if user.is_authenticated %}
-          <li><a class="navbar-brand" href="{% url 'index'%}">Home</a></li>
-          <li><a class="navbar-brand" href="{% url 'orderlist' %}">Cart</a></li>
-          
-           
-          </a></li>
-          <li class="nav-item">
-            <a class="navbar-brand" href="{% url 'search' %}">Search</a>
-        </li>
-        <li class="nav-item">
-           <a class="navbar-brand" href="{% url 'profile' %}">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="navbar-brand" href="{% url 'contact' %}">Contact</a>
-      </li>
-      <li class="nav-item">
-        <a class="navbar-brand" href="{% url 'order_items' %}">My Order</a>
-     </li>
-          <li><a class="navbar-brand" href="{% url 'user_logout' %}">Logout</a></li>
-          {% else %}
-          
-          <li><a class="navbar-brand" href="{% url 'user_login' %}">Login</a></li>
-          <li><a class="navbar-brand" href="{% url 'user_register' %}">Register</a></li>
-          {% endif %}
-        </ul>
-      </nav>
-    </div>
-  </header>
+    <h1 class="sitename">SKIN STUDIO</h1>
+
+    <!-- Mobile Menu Toggle Button -->
+    <button class="navbar-toggler d-block d-md-none" id="mobile-menu-btn">
+      ☰
+    </button>
+
+    <nav id="navmenu" class="navmenu">
+      <ul id="menu-list" class="d-none d-md-flex">
+        {% if user.is_authenticated %}
+        <li><a class="navbar-brand" href="{% url 'index'%}">Home</a></li>
+        <li><a class="navbar-brand" href="{% url 'orderlist' %}">Cart</a></li>
+        <li class="nav-item"><a class="navbar-brand" href="{% url 'search' %}">Search</a></li>
+        <li class="nav-item"><a class="navbar-brand" href="{% url 'profile' %}">Profile</a></li>
+        <li class="nav-item"><a class="navbar-brand" href="{% url 'contact' %}">Contact</a></li>
+        <li class="nav-item"><a class="navbar-brand" href="{% url 'order_items' %}">My Order</a></li>
+        <li><a class="navbar-brand" href="{% url 'user_logout' %}">Logout</a></li>
+        {% else %}
+        <li><a class="navbar-brand" href="{% url 'user_login' %}">Login</a></li>
+        <li><a class="navbar-brand" href="{% url 'user_register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
 
 
   
@@ -500,7 +493,9 @@ body, html {
 <section id="banner" class="banner-section">
   <div class="banner">
     {% for banner in banners %}
-    <div class="banner-content" style="background-image: url('{{ banner.image.url }}');">
+    <div class="banner-content" 
+     style="{% if banner.image %}background-image: url('{{ banner.image.url }}');{% endif %}">
+
       <div class="overlay"></div>
       <div class="text-container">
         <h2 class="banner-title">{{ banner.title }}</h2>
@@ -517,7 +512,7 @@ body, html {
   <main class="main">
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-      <img src="{% static 'img/images of everglow/cov 3.jpg' %}" alt="Hero Background">
+      <img src="{% static '/img/images/cov4.jpg' %}" alt="Hero Background">
       <div class="container text-center">
         <div class="row justify-content-center">
           <div class="col-lg-8">
@@ -557,6 +552,7 @@ body, html {
         </div>
       </div>
     </section>
+    <a href="{% url 'search' %}" class="btn-get-started">Get Started</a>
     
     
   </main>
@@ -570,6 +566,13 @@ body, html {
       
     </div>
   </footer>
+  <script>
+    document.getElementById("mobile-menu-btn").addEventListener("click", function () {
+      let menu = document.getElementById("menu-list");
+      menu.classList.toggle("d-none");
+    });
+  </script>
+  
 </body>
 
 </html>

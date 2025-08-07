@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-g7n3i)*$t!&tu4pr_u()%jyy@#lxxxcd+4@m*(g)#bk90_rmg9
 DEBUG = True
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,17 +82,10 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 
-
-from decouple import config
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -142,6 +135,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/"media"
 
@@ -168,3 +162,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]

@@ -113,7 +113,8 @@ def user_register(request):
             messages.success(request, "OTP has been sent to your email for verification.")
             return redirect('verify')
         except Exception as e:
-            messages.error(request, "There was an error sending the OTP. Please try again.")
+            print(f"{e}")
+            messages.error(request, f"There was an error sending the OTP. Please try again.{e}")
             return render(request, 'accounts/register.html')
 
     return render(request, 'accounts/register.html')
