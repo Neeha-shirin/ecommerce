@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-g7n3i)*$t!&tu4pr_u()%jyy@#lxxxcd+4@m*(g)#bk90_rmg9
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'neehashirin.onrender.com',
+    'ecommerce-pp7v.onrender.com',  # Current Render domain
+    'neehashirin.onrender.com',     # Your new Render domain if you switch later
     'localhost',
     '127.0.0.1'
 ]
@@ -168,5 +169,6 @@ STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'https://ecommerce-pp7v.onrender.com',
     'https://neehashirin.onrender.com'
 ]
